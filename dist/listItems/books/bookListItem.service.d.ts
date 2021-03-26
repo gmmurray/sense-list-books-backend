@@ -1,0 +1,30 @@
+import { ClientSession, Connection, Model } from 'mongoose';
+import { BookListItemDocument } from './definitions/bookListItem.schema';
+import { ListItemsService } from '../listItems.service';
+import { BookListItemDto, CreateBookListItemDto, PatchBookListItemDto, QueryBookListItemDto } from './definitions/bookListItem.dto';
+import { ListsService } from 'src/lists/lists.service';
+import { DataTotalResponse } from 'src/common/types/responseWrappers';
+import { OpenLibraryService } from '../../openLibrary/openLibrary.service';
+import { ListType } from 'src/common/types/listType';
+import { AllUserListItemsService } from 'src/userListItems/allUserListItems.service';
+import { StringIdType } from 'src/common/types/stringIdType';
+import { GoogleBooksService } from 'src/googleBooks/googlebooks.service';
+import { UpdateListItemOrdinalsDto } from '../definitions/listItem.dto';
+export declare class BookListItemsService extends ListItemsService<BookListItemDocument, BookListItemDto, CreateBookListItemDto, QueryBookListItemDto, PatchBookListItemDto> {
+    readonly bookListItemsModel: Model<BookListItemDocument>;
+    private connection;
+    readonly listService: ListsService;
+    readonly googleBooksService: GoogleBooksService;
+    readonly openLibraryService: OpenLibraryService;
+    readonly allUserListItemService: AllUserListItemsService;
+    constructor(bookListItemsModel: Model<BookListItemDocument>, connection: Connection, listService: ListsService, googleBooksService: GoogleBooksService, openLibraryService: OpenLibraryService, allUserListItemService: AllUserListItemsService);
+    findAll(userId: string, listId: string): Promise<DataTotalResponse<BookListItemDto>>;
+    findByQuery(userId: string, listId: string, queryDto: QueryBookListItemDto): Promise<DataTotalResponse<BookListItemDto>>;
+    findById(userId: string, listItemId: string): Promise<BookListItemDto>;
+    create(createDto: CreateBookListItemDto, userId: string): Promise<BookListItemDto>;
+    patch(userId: string, listItemId: string, patchDto: PatchBookListItemDto): Promise<void>;
+    updateOrdinals(userId: string, updates: UpdateListItemOrdinalsDto): Promise<void>;
+    delete(userId: string, listItemId: string): Promise<void>;
+    deleteAllItemsByList(userId: string, listId: StringIdType, session: ClientSession, listType: ListType): Promise<void>;
+    private static getQueryFilter;
+}
