@@ -1712,7 +1712,7 @@
         "affectsGlobalScope": false
       },
       "../src/userlistitems/books/buli.service.ts": {
-        "version": "60699d0b9dba036a0984f25fe34622d5627fbdd66a333bf05fa534728ba546c9",
+        "version": "d9511d2dbaa121e7a88241a1bf50763c1174f8d47c7966a60b7d9ff05cb92dc7",
         "signature": "98eb24e587ff7c7f4b58b743eb0b15b7ea37523f18563b727b95c5828498e598",
         "affectsGlobalScope": false
       },

@@ -151,7 +151,9 @@ let BULIService = class BULIService extends userListItem_service_1.UserListItems
                 .exec();
             if (!items)
                 throw new mongoose_2.Error.DocumentNotFoundError(null);
-            return items.map(doc => buli_dto_1.BULIDto.assignWithPopulatedListItemsOnly(doc));
+            return items
+                .filter(doc => !!doc.bookListItem)
+                .map(doc => buli_dto_1.BULIDto.assignWithPopulatedListItemsOnly(doc));
         }
         catch (error) {
             exceptionWrappers_1.handleHttpRequestError(error);

@@ -248,7 +248,9 @@ export class BULIService extends UserListItemsService<
 
       if (!items) throw new MongooseError.DocumentNotFoundError(null);
 
-      return items.map(doc => BULIDto.assignWithPopulatedListItemsOnly(doc));
+      return items
+        .filter(doc => !!doc.bookListItem)
+        .map(doc => BULIDto.assignWithPopulatedListItemsOnly(doc));
     } catch (error) {
       handleHttpRequestError(error);
     }
