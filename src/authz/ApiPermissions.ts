@@ -32,4 +32,6 @@ export enum GoogleBooksApiPermissions {
 
 export enum UserPermissions {
   read = 'read:users',
+  write = 'write:users',
+  delete = 'delete:users',
 }

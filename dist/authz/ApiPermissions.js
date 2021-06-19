@@ -36,5 +36,7 @@ var GoogleBooksApiPermissions;
 var UserPermissions;
 (function (UserPermissions) {
     UserPermissions["read"] = "read:users";
+    UserPermissions["write"] = "write:users";
+    UserPermissions["delete"] = "delete:users";
 })(UserPermissions = exports.UserPermissions || (exports.UserPermissions = {}));
 //# sourceMappingURL=ApiPermissions.js.map

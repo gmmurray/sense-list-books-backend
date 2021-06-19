@@ -1,0 +1,10 @@
+import { Document } from 'mongoose';
+export declare type PrivateUserFieldsDocument = PrivateUserFields & Document;
+export declare const defaultRecentActivityCount = 5;
+export declare const defaultActiveListsCount = 3;
+export declare const defaultShowActivityOnPublicProfile = false;
+export declare class PrivateUserFields {
+    recentActivityCount: number;
+    activeListsCount: number;
+    showActivityOnPublicProfile: boolean;
+}
