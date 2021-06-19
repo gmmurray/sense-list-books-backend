@@ -3,6 +3,7 @@ import { BookListItem } from 'src/listItems/books/definitions/bookListItem.schem
 import { List } from 'src/lists/definitions/list.schema';
 import { BookUserListItem } from 'src/userListItems/books/definitions/bookUserListItem.schema';
 import { UserList } from 'src/userLists/definitions/userList.schema';
+import { PrivateUserFields } from 'src/users/definitions/userProfiles/privateUserFields.schema';
 import { ListType } from './types/listType';
 
 //#region collection and entity names
@@ -14,6 +15,8 @@ export const userListCollectionName = 'userLists';
 export const userListEntityName = 'userList';
 export const bookUserListItemCollectionName = 'bookUserListItems';
 export const bookUserListItemEntityName = 'bookUserListItem';
+export const userProfileCollectionName = 'userProfiles';
+export const userProfilePrivateFieldsPropName = 'privateFields';
 //#endregion
 
 //#region names for use as properties
@@ -56,6 +59,10 @@ export const getSingleUserListItemPropName = (type: ListType): string => {
       throw new NotImplementedException();
   }
 };
+
+export const getPrivateFieldsPropName = (): string =>
+  userProfilePrivateFieldsPropName;
+export const getPrivateFieldsEntityName = (): string => PrivateUserFields.name;
 //#endregion
 
 //#region model names

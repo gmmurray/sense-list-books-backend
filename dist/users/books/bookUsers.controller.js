@@ -21,10 +21,27 @@ const permissions_decorator_1 = require("../../authz/permissions.decorator");
 const permissions_guard_1 = require("../../authz/permissions.guard");
 const responseWrappers_1 = require("../../common/types/responseWrappers");
 const userList_dto_1 = require("../../userLists/definitions/userList.dto");
+const userProfile_dto_1 = require("../definitions/userProfiles/userProfile.dto");
 const bookUsers_service_1 = require("./bookUsers.service");
 let BookUsersController = class BookUsersController {
     constructor(bookUsersService) {
         this.bookUsersService = bookUsersService;
+    }
+    async getUserProfileByAuthId({ user }, authId) {
+        const userId = user.sub;
+        return await this.bookUsersService.findUserProfile(authId, userId);
+    }
+    async createUserProfile({ user }, createDto) {
+        const userId = user.sub;
+        return await this.bookUsersService.createUserProfile(Object.assign(Object.assign({}, createDto), { authId: userId }), userId);
+    }
+    async patchUserProfile({ user }, updates) {
+        const userId = user.sub;
+        return await this.bookUsersService.patchUserProfile(updates, userId);
+    }
+    async deleteUserProfile({ user }) {
+        const userId = user.sub;
+        return await this.bookUsersService.deleteUserProfile(userId);
     }
     async getRecentActivity({ user }, count) {
         const userId = user.sub;
@@ -35,6 +52,45 @@ let BookUsersController = class BookUsersController {
         return await this.bookUsersService.getActiveLists(userId, count);
     }
 };
+__decorate([
+    common_1.UseGuards(passport_1.AuthGuard('jwt'), permissions_guard_1.PermissionsGuard),
+    common_1.Get('profiles/:authId'),
+    permissions_decorator_1.Permissions(ApiPermissions_1.UserPermissions.read),
+    __param(0, common_1.Req()),
+    __param(1, common_1.Param('authId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String]),
+    __metadata("design:returntype", Promise)
+], BookUsersController.prototype, "getUserProfileByAuthId", null);
+__decorate([
+    common_1.UseGuards(passport_1.AuthGuard('jwt'), permissions_guard_1.PermissionsGuard),
+    common_1.Post('profiles'),
+    permissions_decorator_1.Permissions(ApiPermissions_1.UserPermissions.write),
+    __param(0, common_1.Req()),
+    __param(1, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, userProfile_dto_1.CreateUserProfileDto]),
+    __metadata("design:returntype", Promise)
+], BookUsersController.prototype, "createUserProfile", null);
+__decorate([
+    common_1.UseGuards(passport_1.AuthGuard('jwt'), permissions_guard_1.PermissionsGuard),
+    common_1.Patch('profiles'),
+    permissions_decorator_1.Permissions(ApiPermissions_1.UserPermissions.write),
+    __param(0, common_1.Req()),
+    __param(1, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, userProfile_dto_1.PatchUserProfileDto]),
+    __metadata("design:returntype", Promise)
+], BookUsersController.prototype, "patchUserProfile", null);
+__decorate([
+    common_1.UseGuards(passport_1.AuthGuard('jwt'), permissions_guard_1.PermissionsGuard),
+    common_1.Delete('profiles'),
+    permissions_decorator_1.Permissions(ApiPermissions_1.UserPermissions.delete),
+    __param(0, common_1.Req()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], BookUsersController.prototype, "deleteUserProfile", null);
 __decorate([
     common_1.UseGuards(passport_1.AuthGuard('jwt'), permissions_guard_1.PermissionsGuard),
     common_1.Get('activity/:count'),

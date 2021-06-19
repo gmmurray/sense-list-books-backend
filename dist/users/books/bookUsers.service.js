@@ -8,10 +8,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BookUsersService = void 0;
 const common_1 = require("@nestjs/common");
+const mongoose_1 = require("@nestjs/mongoose");
+const mongoose_2 = require("mongoose");
+const dtoHelpers_1 = require("../../common/dtoHelpers");
 const exceptionWrappers_1 = require("../../common/exceptionWrappers");
+const mongooseTableHelpers_1 = require("../../common/mongooseTableHelpers");
 const listType_1 = require("../../common/types/listType");
 const responseWrappers_1 = require("../../common/types/responseWrappers");
 const stringIdType_1 = require("../../common/types/stringIdType");
@@ -23,10 +30,78 @@ const userList_dto_1 = require("../../userLists/definitions/userList.dto");
 const userLists_service_1 = require("../../userLists/userLists.service");
 const activityType_1 = require("../definitions/activityType");
 const recentActivity_1 = require("../definitions/recentActivity");
+const privateUserFields_dto_1 = require("../definitions/userProfiles/privateUserFields.dto");
+const userProfile_dto_1 = require("../definitions/userProfiles/userProfile.dto");
+const userProfile_schema_1 = require("../definitions/userProfiles/userProfile.schema");
 let BookUsersService = class BookUsersService {
-    constructor(userListsService, buliService) {
+    constructor(userListsService, buliService, userProfileModel) {
         this.userListsService = userListsService;
         this.buliService = buliService;
+        this.userProfileModel = userProfileModel;
+    }
+    async findUserProfile(authId, userId) {
+        try {
+            const result = await this.userProfileModel.findOne({ authId });
+            if (!result)
+                throw new mongoose_2.Error.DocumentNotFoundError(null);
+            return userProfile_dto_1.UserProfileDto.assign(result).hidePrivateFields(userId);
+        }
+        catch (error) {
+            exceptionWrappers_1.handleHttpRequestError(error);
+        }
+    }
+    async createUserProfile(createDto, userId) {
+        var _a;
+        const createdUserProfile = new this.userProfileModel(Object.assign(Object.assign({}, createDto), { authId: userId, privateFields: (_a = createDto === null || createDto === void 0 ? void 0 : createDto.privateFields) !== null && _a !== void 0 ? _a : new privateUserFields_dto_1.PrivateUserFieldsDto() }));
+        try {
+            const result = await createdUserProfile.save();
+            return userProfile_dto_1.UserProfileDto.assign(result);
+        }
+        catch (error) {
+            exceptionWrappers_1.handleHttpRequestError(error);
+        }
+    }
+    async patchUserProfile(patchDto, userId) {
+        try {
+            const dto = dtoHelpers_1.cleanDtoFields(patchDto);
+            const requestedDoc = await this.userProfileModel
+                .findOne({ authId: userId })
+                .exec();
+            if (!requestedDoc)
+                throw new mongoose_2.Error.DocumentNotFoundError(null);
+            const privateFieldsKeys = Object.keys(new privateUserFields_dto_1.PrivateUserFieldsDto());
+            const privateFieldsPath = mongooseTableHelpers_1.getPrivateFieldsPropName();
+            for (const key in dto) {
+                if (privateFieldsKeys.includes(key)) {
+                    requestedDoc[privateFieldsPath][key] = dto[key];
+                    requestedDoc.markModified(privateFieldsPath);
+                }
+                else {
+                    requestedDoc[key] = dto[key];
+                }
+            }
+            await requestedDoc.save();
+        }
+        catch (error) {
+            exceptionWrappers_1.handleHttpRequestError(error);
+        }
+    }
+    async deleteUserProfile(userId) {
+        try {
+            const userProfile = await this.userProfileModel.findOne({
+                authId: userId,
+            });
+            if (!userProfile)
+                throw new mongoose_2.Error.DocumentNotFoundError(null);
+            const result = await this.userProfileModel.findOneAndDelete({
+                authId: userId,
+            });
+            if (!result)
+                throw new mongoose_2.Error.DocumentNotFoundError(null);
+        }
+        catch (error) {
+            exceptionWrappers_1.handleHttpRequestError(error);
+        }
     }
     async getRecentActivity(userId, count) {
         try {
@@ -96,8 +171,10 @@ let BookUsersService = class BookUsersService {
 };
 BookUsersService = __decorate([
     common_1.Injectable(),
+    __param(2, mongoose_1.InjectModel(userProfile_schema_1.UserProfile.name)),
     __metadata("design:paramtypes", [userLists_service_1.UserListsService,
-        buli_service_1.BULIService])
+        buli_service_1.BULIService,
+        mongoose_2.Model])
 ], BookUsersService);
 exports.BookUsersService = BookUsersService;
 //# sourceMappingURL=bookUsers.service.js.map

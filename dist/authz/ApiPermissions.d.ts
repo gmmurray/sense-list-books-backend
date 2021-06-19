@@ -25,5 +25,7 @@ export declare enum GoogleBooksApiPermissions {
     read = "read:google-books"
 }
 export declare enum UserPermissions {
-    read = "read:users"
+    read = "read:users",
+    write = "write:users",
+    delete = "delete:users"
 }
