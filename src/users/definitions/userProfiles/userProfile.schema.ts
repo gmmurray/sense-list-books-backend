@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { getListModelName } from 'src/common/mongooseTableHelpers';
 import { PrivateUserFields } from './privateUserFields.schema';
 
 export type UserProfileDocument = UserProfile & Document;
@@ -20,6 +21,16 @@ export class UserProfile {
 
   @Prop()
   updatedAt: Date;
+
+  // virtual/derived fields
+  listCount: number;
 }
 
 export const UserProfileSchema = SchemaFactory.createForClass(UserProfile);
+
+UserProfileSchema.virtual('listCount', {
+  ref: getListModelName(),
+  localField: 'authId',
+  foreignField: 'ownerId',
+  count: true,
+});

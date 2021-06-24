@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserProfileSchema = exports.UserProfile = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
+const mongooseTableHelpers_1 = require("../../../common/mongooseTableHelpers");
 const privateUserFields_schema_1 = require("./privateUserFields.schema");
 let UserProfile = class UserProfile {
 };
@@ -39,4 +40,10 @@ UserProfile = __decorate([
 ], UserProfile);
 exports.UserProfile = UserProfile;
 exports.UserProfileSchema = mongoose_1.SchemaFactory.createForClass(UserProfile);
+exports.UserProfileSchema.virtual('listCount', {
+    ref: mongooseTableHelpers_1.getListModelName(),
+    localField: 'authId',
+    foreignField: 'ownerId',
+    count: true,
+});
 //# sourceMappingURL=userProfile.schema.js.map

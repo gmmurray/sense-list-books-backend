@@ -41,7 +41,9 @@ let BookUsersService = class BookUsersService {
     }
     async findUserProfile(authId, userId) {
         try {
-            const result = await this.userProfileModel.findOne({ authId });
+            const result = await this.userProfileModel
+                .findOne({ authId })
+                .populate(mongooseTableHelpers_1.getUserProfileListCountPropName());
             if (!result)
                 throw new mongoose_2.Error.DocumentNotFoundError(null);
             return userProfile_dto_1.UserProfileDto.assign(result).hidePrivateFields(userId);

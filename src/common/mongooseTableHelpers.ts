@@ -17,6 +17,7 @@ export const bookUserListItemCollectionName = 'bookUserListItems';
 export const bookUserListItemEntityName = 'bookUserListItem';
 export const userProfileCollectionName = 'userProfiles';
 export const userProfilePrivateFieldsPropName = 'privateFields';
+export const userProfileListCountCollectionName = 'listCount';
 //#endregion
 
 //#region names for use as properties
@@ -63,6 +64,8 @@ export const getSingleUserListItemPropName = (type: ListType): string => {
 export const getPrivateFieldsPropName = (): string =>
   userProfilePrivateFieldsPropName;
 export const getPrivateFieldsEntityName = (): string => PrivateUserFields.name;
+export const getUserProfileListCountPropName = (): string =>
+  userProfileListCountCollectionName;
 //#endregion
 
 //#region model names

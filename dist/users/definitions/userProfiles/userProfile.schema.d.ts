@@ -7,5 +7,6 @@ export declare class UserProfile {
     privateFields: PrivateUserFields;
     createdAt: Date;
     updatedAt: Date;
+    listCount: number;
 }
 export declare const UserProfileSchema: import("mongoose").Schema<Document<UserProfile, {}>, import("mongoose").Model<any, any>, undefined>;

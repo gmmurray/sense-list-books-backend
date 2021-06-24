@@ -6,6 +6,7 @@ export class UserProfileDto {
     public authId: string,
     public username: string,
     public privateFields: PrivateUserFieldsDto,
+    public listCount: number | null,
     public createdAt: Date,
     public updatedAt: Date,
   ) {}
@@ -24,6 +25,7 @@ export class UserProfileDto {
       doc.authId,
       doc.username,
       doc.privateFields,
+      doc.listCount,
       doc.createdAt,
       doc.updatedAt,
     );

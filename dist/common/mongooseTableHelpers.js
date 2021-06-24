@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserListItemModelName = exports.getUserListModelName = exports.getListItemModelName = exports.getListModelName = exports.getPrivateFieldsEntityName = exports.getPrivateFieldsPropName = exports.getSingleUserListItemPropName = exports.getMultiUserListItemPropName = exports.getSingleUserListPropName = exports.getMultiUserListPropName = exports.getSingleListItemPropName = exports.getMultiListItemPropName = exports.getSingleListPropName = exports.getMultiListPropName = exports.userProfilePrivateFieldsPropName = exports.userProfileCollectionName = exports.bookUserListItemEntityName = exports.bookUserListItemCollectionName = exports.userListEntityName = exports.userListCollectionName = exports.bookListItemEntityName = exports.bookListItemCollectionName = exports.listEntityName = exports.listCollectionName = void 0;
+exports.getUserListItemModelName = exports.getUserListModelName = exports.getListItemModelName = exports.getListModelName = exports.getUserProfileListCountPropName = exports.getPrivateFieldsEntityName = exports.getPrivateFieldsPropName = exports.getSingleUserListItemPropName = exports.getMultiUserListItemPropName = exports.getSingleUserListPropName = exports.getMultiUserListPropName = exports.getSingleListItemPropName = exports.getMultiListItemPropName = exports.getSingleListPropName = exports.getMultiListPropName = exports.userProfileListCountCollectionName = exports.userProfilePrivateFieldsPropName = exports.userProfileCollectionName = exports.bookUserListItemEntityName = exports.bookUserListItemCollectionName = exports.userListEntityName = exports.userListCollectionName = exports.bookListItemEntityName = exports.bookListItemCollectionName = exports.listEntityName = exports.listCollectionName = void 0;
 const common_1 = require("@nestjs/common");
 const bookListItem_schema_1 = require("../listItems/books/definitions/bookListItem.schema");
 const list_schema_1 = require("../lists/definitions/list.schema");
@@ -18,6 +18,7 @@ exports.bookUserListItemCollectionName = 'bookUserListItems';
 exports.bookUserListItemEntityName = 'bookUserListItem';
 exports.userProfileCollectionName = 'userProfiles';
 exports.userProfilePrivateFieldsPropName = 'privateFields';
+exports.userProfileListCountCollectionName = 'listCount';
 const getMultiListPropName = () => exports.listCollectionName;
 exports.getMultiListPropName = getMultiListPropName;
 const getSingleListPropName = () => exports.listEntityName;
@@ -66,6 +67,8 @@ const getPrivateFieldsPropName = () => exports.userProfilePrivateFieldsPropName;
 exports.getPrivateFieldsPropName = getPrivateFieldsPropName;
 const getPrivateFieldsEntityName = () => privateUserFields_schema_1.PrivateUserFields.name;
 exports.getPrivateFieldsEntityName = getPrivateFieldsEntityName;
+const getUserProfileListCountPropName = () => exports.userProfileListCountCollectionName;
+exports.getUserProfileListCountPropName = getUserProfileListCountPropName;
 const getListModelName = () => list_schema_1.List.name;
 exports.getListModelName = getListModelName;
 const getListItemModelName = (type) => {

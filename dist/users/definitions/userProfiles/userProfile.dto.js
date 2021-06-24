@@ -2,10 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PatchUserProfileDto = exports.CreateUserProfileDto = exports.QueryUserProfileDto = exports.UserProfileDto = void 0;
 class UserProfileDto {
-    constructor(authId, username, privateFields, createdAt, updatedAt) {
+    constructor(authId, username, privateFields, listCount, createdAt, updatedAt) {
         this.authId = authId;
         this.username = username;
         this.privateFields = privateFields;
+        this.listCount = listCount;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -18,7 +19,7 @@ class UserProfileDto {
         return this;
     }
     static assign(doc) {
-        return new UserProfileDto(doc.authId, doc.username, doc.privateFields, doc.createdAt, doc.updatedAt);
+        return new UserProfileDto(doc.authId, doc.username, doc.privateFields, doc.listCount, doc.createdAt, doc.updatedAt);
     }
 }
 exports.UserProfileDto = UserProfileDto;

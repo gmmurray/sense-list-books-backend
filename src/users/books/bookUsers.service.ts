@@ -3,7 +3,10 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Error as MongooseError, Model, Types } from 'mongoose';
 import { cleanDtoFields } from 'src/common/dtoHelpers';
 import { handleHttpRequestError } from 'src/common/exceptionWrappers';
-import { getPrivateFieldsPropName } from 'src/common/mongooseTableHelpers';
+import {
+  getPrivateFieldsPropName,
+  getUserProfileListCountPropName,
+} from 'src/common/mongooseTableHelpers';
 import { ListType } from 'src/common/types/listType';
 import { DataTotalResponse } from 'src/common/types/responseWrappers';
 import { StringIdType } from 'src/common/types/stringIdType';
@@ -44,7 +47,9 @@ export class BookUsersService {
     userId: string,
   ): Promise<UserProfileDto> {
     try {
-      const result = await this.userProfileModel.findOne({ authId });
+      const result = await this.userProfileModel
+        .findOne({ authId })
+        .populate(getUserProfileListCountPropName());
 
       if (!result) throw new MongooseError.DocumentNotFoundError(null);
 

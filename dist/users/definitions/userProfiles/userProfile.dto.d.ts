@@ -4,9 +4,10 @@ export declare class UserProfileDto {
     authId: string;
     username: string;
     privateFields: PrivateUserFieldsDto;
+    listCount: number | null;
     createdAt: Date;
     updatedAt: Date;
-    constructor(authId: string, username: string, privateFields: PrivateUserFieldsDto, createdAt: Date, updatedAt: Date);
+    constructor(authId: string, username: string, privateFields: PrivateUserFieldsDto, listCount: number | null, createdAt: Date, updatedAt: Date);
     isProfileOwner(userId: string): boolean;
     hidePrivateFields(userId: string): UserProfileDto;
     static assign(doc: UserProfileDocument): UserProfileDto;
