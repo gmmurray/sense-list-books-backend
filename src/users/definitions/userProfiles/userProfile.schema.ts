@@ -17,6 +17,9 @@ export class UserProfile {
   privateFields: PrivateUserFields;
 
   @Prop()
+  pinnedListId: string;
+
+  @Prop()
   createdAt: Date;
 
   @Prop()

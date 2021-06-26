@@ -15,7 +15,7 @@ export declare class BookUsersService {
     createUserProfile(createDto: CreateUserProfileDto, userId: string): Promise<UserProfileDto>;
     patchUserProfile(patchDto: PatchUserProfileDto, userId: string): Promise<void>;
     deleteUserProfile(userId: string): Promise<void>;
-    getRecentActivity(userId: string, count: string): Promise<DataTotalResponse<RecentActivity>>;
+    getRecentActivity(userId: string, count: string | number): Promise<DataTotalResponse<RecentActivity>>;
     getActiveLists(userId: string, count: string): Promise<DataTotalResponse<UserListDto>>;
     private addUserListToResult;
     private addBULIToResult;

@@ -5,6 +5,7 @@ export declare class UserProfile {
     authId: string;
     username: string;
     privateFields: PrivateUserFields;
+    pinnedListId: string;
     createdAt: Date;
     updatedAt: Date;
     listCount: number;

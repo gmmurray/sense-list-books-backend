@@ -22,6 +22,7 @@ const mongooseTableHelpers_1 = require("../../common/mongooseTableHelpers");
 const listType_1 = require("../../common/types/listType");
 const responseWrappers_1 = require("../../common/types/responseWrappers");
 const stringIdType_1 = require("../../common/types/stringIdType");
+const activity_1 = require("../../constants/activity");
 const bookListItem_dto_1 = require("../../listItems/books/definitions/bookListItem.dto");
 const list_dto_1 = require("../../lists/definitions/list.dto");
 const buli_service_1 = require("../../userListItems/books/buli.service");
@@ -41,12 +42,13 @@ let BookUsersService = class BookUsersService {
     }
     async findUserProfile(authId, userId) {
         try {
-            const result = await this.userProfileModel
+            const userProfile = await this.userProfileModel
                 .findOne({ authId })
                 .populate(mongooseTableHelpers_1.getUserProfileListCountPropName());
-            if (!result)
+            if (!userProfile)
                 throw new mongoose_2.Error.DocumentNotFoundError(null);
-            return userProfile_dto_1.UserProfileDto.assign(result).hidePrivateFields(userId);
+            const recentActivity = await this.getRecentActivity(userId, userProfile.privateFields.recentActivityCount || activity_1.RECENT_ACTIVITY_COUNT);
+            return userProfile_dto_1.UserProfileDto.assign(userProfile, recentActivity.data || []).hidePrivateFields(userId);
         }
         catch (error) {
             exceptionWrappers_1.handleHttpRequestError(error);
@@ -57,7 +59,7 @@ let BookUsersService = class BookUsersService {
         const createdUserProfile = new this.userProfileModel(Object.assign(Object.assign({}, createDto), { authId: userId, privateFields: (_a = createDto === null || createDto === void 0 ? void 0 : createDto.privateFields) !== null && _a !== void 0 ? _a : new privateUserFields_dto_1.PrivateUserFieldsDto() }));
         try {
             const result = await createdUserProfile.save();
-            return userProfile_dto_1.UserProfileDto.assign(result);
+            return userProfile_dto_1.UserProfileDto.assign(result, null);
         }
         catch (error) {
             exceptionWrappers_1.handleHttpRequestError(error);
@@ -107,7 +109,7 @@ let BookUsersService = class BookUsersService {
     }
     async getRecentActivity(userId, count) {
         try {
-            const queryCount = parseInt(count);
+            const queryCount = typeof count !== 'number' ? parseInt(count) : count;
             if (!queryCount)
                 throw new common_1.BadRequestException();
             const result = [];

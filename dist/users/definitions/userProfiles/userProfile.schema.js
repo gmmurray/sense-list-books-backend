@@ -29,6 +29,10 @@ __decorate([
 ], UserProfile.prototype, "privateFields", void 0);
 __decorate([
     mongoose_1.Prop(),
+    __metadata("design:type", String)
+], UserProfile.prototype, "pinnedListId", void 0);
+__decorate([
+    mongoose_1.Prop(),
     __metadata("design:type", Date)
 ], UserProfile.prototype, "createdAt", void 0);
 __decorate([

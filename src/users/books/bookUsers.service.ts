@@ -10,6 +10,7 @@ import {
 import { ListType } from 'src/common/types/listType';
 import { DataTotalResponse } from 'src/common/types/responseWrappers';
 import { StringIdType } from 'src/common/types/stringIdType';
+import { RECENT_ACTIVITY_COUNT } from 'src/constants/activity';
 import { BookListItemDto } from 'src/listItems/books/definitions/bookListItem.dto';
 import { ListDto } from 'src/lists/definitions/list.dto';
 import { BULIService } from 'src/userListItems/books/buli.service';
@@ -47,13 +48,21 @@ export class BookUsersService {
     userId: string,
   ): Promise<UserProfileDto> {
     try {
-      const result = await this.userProfileModel
+      const userProfile = await this.userProfileModel
         .findOne({ authId })
         .populate(getUserProfileListCountPropName());
 
-      if (!result) throw new MongooseError.DocumentNotFoundError(null);
+      if (!userProfile) throw new MongooseError.DocumentNotFoundError(null);
 
-      return UserProfileDto.assign(result).hidePrivateFields(userId);
+      const recentActivity = await this.getRecentActivity(
+        userId,
+        userProfile.privateFields.recentActivityCount || RECENT_ACTIVITY_COUNT,
+      );
+
+      return UserProfileDto.assign(
+        userProfile,
+        recentActivity.data || [],
+      ).hidePrivateFields(userId);
     } catch (error) {
       handleHttpRequestError(error);
     }
@@ -70,7 +79,7 @@ export class BookUsersService {
     });
     try {
       const result = await createdUserProfile.save();
-      return UserProfileDto.assign(result);
+      return UserProfileDto.assign(result, null);
     } catch (error) {
       handleHttpRequestError(error);
     }
@@ -121,10 +130,10 @@ export class BookUsersService {
 
   async getRecentActivity(
     userId: string,
-    count: string,
+    count: string | number,
   ): Promise<DataTotalResponse<RecentActivity>> {
     try {
-      const queryCount = parseInt(count);
+      const queryCount = typeof count !== 'number' ? parseInt(count) : count;
       if (!queryCount) throw new BadRequestException();
       const result: RecentActivity[] = [];
 
