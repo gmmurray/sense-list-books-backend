@@ -18,6 +18,7 @@ class UserProfileDto {
     hidePrivateFields(userId) {
         if (!this.isProfileOwner(userId)) {
             this.privateFields = undefined;
+            this.recentActivity = [];
         }
         return this;
     }

@@ -21,6 +21,7 @@ export class UserProfileDto {
   public hidePrivateFields(userId: string): UserProfileDto {
     if (!this.isProfileOwner(userId)) {
       this.privateFields = undefined;
+      this.recentActivity = [];
     }
     return this;
   }
