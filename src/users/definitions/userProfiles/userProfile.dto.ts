@@ -20,8 +20,10 @@ export class UserProfileDto {
 
   public hidePrivateFields(userId: string): UserProfileDto {
     if (!this.isProfileOwner(userId)) {
+      this.recentActivity = this.privateFields.showActivityOnPublicProfile
+        ? this.recentActivity
+        : [];
       this.privateFields = undefined;
-      this.recentActivity = [];
     }
     return this;
   }

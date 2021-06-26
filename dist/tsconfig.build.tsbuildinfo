@@ -2192,7 +2192,7 @@
         "affectsGlobalScope": false
       },
       "../src/users/definitions/userprofiles/userprofile.dto.ts": {
-        "version": "9114c53444ed57c264a2c306da1e3a3d14169aec016f361ff845e06914af536b",
+        "version": "c8ecf689ac5a2657a769220810aa40bfbf456c32d6f26647cb1c6def27105b90",
         "signature": "0c9aa6a2b00f0d0f0fe7057f0c29f5c4c6707448534372ef70530a9e26ae230d",
         "affectsGlobalScope": false
       },
