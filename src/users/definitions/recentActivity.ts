@@ -14,7 +14,7 @@ export class RecentActivity {
 export class RecentUserListActivity extends RecentActivity {
   constructor(
     public identifier: StringIdType,
-    public type: ActivityType,
+    public type: ActivityType = ActivityType.start,
     public timeStamp: Date,
     public title: string,
     public bookCount: number,
@@ -26,12 +26,23 @@ export class RecentUserListActivity extends RecentActivity {
 export class RecentBULIActivity extends RecentActivity {
   constructor(
     public identifier: StringIdType,
-    public type: ActivityType,
+    public type: ActivityType = ActivityType.progress,
     public timeStamp: Date,
     public status: BookReadingStatus,
     public owned: boolean,
     public title: string,
     public rating?: number | null,
+  ) {
+    super(identifier, type, timeStamp);
+  }
+}
+
+export class RecentListActivity extends RecentActivity {
+  constructor(
+    public identifier: StringIdType,
+    public type: ActivityType,
+    public timeStamp: Date,
+    public title: string,
   ) {
     super(identifier, type, timeStamp);
   }

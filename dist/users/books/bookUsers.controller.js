@@ -43,10 +43,6 @@ let BookUsersController = class BookUsersController {
         const userId = user.sub;
         return await this.bookUsersService.deleteUserProfile(userId);
     }
-    async getRecentActivity({ user }, count) {
-        const userId = user.sub;
-        return await this.bookUsersService.getRecentActivity(userId, count);
-    }
     async getActiveLists({ user }, count) {
         const userId = user.sub;
         return await this.bookUsersService.getActiveLists(userId, count);
@@ -91,16 +87,6 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], BookUsersController.prototype, "deleteUserProfile", null);
-__decorate([
-    common_1.UseGuards(passport_1.AuthGuard('jwt'), permissions_guard_1.PermissionsGuard),
-    common_1.Get('activity/:count'),
-    permissions_decorator_1.Permissions(ApiPermissions_1.UserPermissions.read),
-    __param(0, common_1.Req()),
-    __param(1, common_1.Param('count')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, String]),
-    __metadata("design:returntype", Promise)
-], BookUsersController.prototype, "getRecentActivity", null);
 __decorate([
     common_1.UseGuards(passport_1.AuthGuard('jwt'), permissions_guard_1.PermissionsGuard),
     common_1.Get('active-lists/:count'),

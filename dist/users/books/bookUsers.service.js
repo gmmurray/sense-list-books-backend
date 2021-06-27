@@ -25,6 +25,7 @@ const stringIdType_1 = require("../../common/types/stringIdType");
 const activity_1 = require("../../constants/activity");
 const bookListItem_dto_1 = require("../../listItems/books/definitions/bookListItem.dto");
 const list_dto_1 = require("../../lists/definitions/list.dto");
+const lists_service_1 = require("../../lists/lists.service");
 const buli_service_1 = require("../../userListItems/books/buli.service");
 const buli_dto_1 = require("../../userListItems/books/definitions/buli.dto");
 const userList_dto_1 = require("../../userLists/definitions/userList.dto");
@@ -35,9 +36,10 @@ const privateUserFields_dto_1 = require("../definitions/userProfiles/privateUser
 const userProfile_dto_1 = require("../definitions/userProfiles/userProfile.dto");
 const userProfile_schema_1 = require("../definitions/userProfiles/userProfile.schema");
 let BookUsersService = class BookUsersService {
-    constructor(userListsService, buliService, userProfileModel) {
+    constructor(userListsService, buliService, listsService, userProfileModel) {
         this.userListsService = userListsService;
         this.buliService = buliService;
+        this.listsService = listsService;
         this.userProfileModel = userProfileModel;
     }
     async findUserProfile(authId, userId) {
@@ -47,7 +49,7 @@ let BookUsersService = class BookUsersService {
                 .populate(mongooseTableHelpers_1.getUserProfileListCountPropName());
             if (!userProfile)
                 throw new mongoose_2.Error.DocumentNotFoundError(null);
-            const recentActivity = await this.getRecentActivity(userId, userProfile.privateFields.recentActivityCount || activity_1.RECENT_ACTIVITY_COUNT);
+            const recentActivity = await this.getRecentActivity(userId, userProfile);
             return userProfile_dto_1.UserProfileDto.assign(userProfile, recentActivity.data || []).hidePrivateFields(userId);
         }
         catch (error) {
@@ -107,48 +109,145 @@ let BookUsersService = class BookUsersService {
             exceptionWrappers_1.handleHttpRequestError(error);
         }
     }
-    async getRecentActivity(userId, count) {
+    async getRecentActivity(userId, userProfile) {
         try {
-            const queryCount = typeof count !== 'number' ? parseInt(count) : count;
-            if (!queryCount)
+            if (!userProfile)
                 throw new common_1.BadRequestException();
+            const { authId, privateFields: { recentActivityCount, showActivityOnPublicProfile }, } = userProfile;
+            const count = recentActivityCount || activity_1.RECENT_ACTIVITY_COUNT;
+            const isOwnProfile = userId == authId;
             const result = [];
-            const listsReq = this.userListsService.findMostRecentCreated(userId, 5, listType_1.ListType.Book);
-            const itemsReq = this.buliService.findMostRecentUpdated(userId, queryCount);
-            const complete = await Promise.all([listsReq, itemsReq]);
-            const listsRes = complete[0];
-            const itemsRes = complete[1];
-            const includedCreatedLists = [];
-            while ((listsRes.length || itemsRes.length) && result.length < 5) {
-                if (listsRes[0] && itemsRes[0]) {
-                    const paddedListDate = new Date(listsRes[0].createdAt.getTime() + 200);
-                    if (paddedListDate > itemsRes[0].updatedAt) {
-                        const userList = listsRes.shift();
-                        this.addUserListToResult(userList, result);
-                        includedCreatedLists.push(userList.id);
+            const requests = [];
+            requests.push(this.listsService.findMostRecentCreated(authId, count, isOwnProfile));
+            requests.push(this.listsService.findMostRecentUpdated(authId, count, isOwnProfile));
+            if (showActivityOnPublicProfile || isOwnProfile) {
+                requests.push(this.userListsService.findMostRecentCreated(authId, count, listType_1.ListType.Book));
+                requests.push(this.buliService.findMostRecentUpdated(authId, count));
+            }
+            const completed = await Promise.all(requests);
+            const createdListsRes = completed[0];
+            const updatedListsRes = completed[1];
+            const processedListIds = [];
+            while (createdListsRes.length || updatedListsRes.length) {
+                const currentCreatedList = createdListsRes[0];
+                const currentUpdatedList = updatedListsRes[0];
+                const listsToAdd = [];
+                if (currentCreatedList &&
+                    processedListIds.some(id => id.equals(currentCreatedList.id))) {
+                    createdListsRes.shift();
+                    continue;
+                }
+                else if (currentUpdatedList &&
+                    processedListIds.some(id => id.equals(currentUpdatedList.id))) {
+                    updatedListsRes.shift();
+                    continue;
+                }
+                if (currentCreatedList && currentUpdatedList) {
+                    if (currentCreatedList.id.equals(currentUpdatedList.id)) {
+                        const paddedCreatedTime = new Date(currentCreatedList.createdAt.getTime() + 200);
+                        const paddedUpdatedTime = new Date(currentUpdatedList.updatedAt.getTime() + 200);
+                        if (Math.abs(paddedCreatedTime.getUTCMilliseconds() -
+                            paddedUpdatedTime.getUTCMilliseconds()) < 500) {
+                            listsToAdd.push({
+                                addedList: currentCreatedList,
+                                type: activityType_1.ActivityType.createdList,
+                                source: createdListsRes,
+                            });
+                            processedListIds.push(currentCreatedList.id);
+                        }
+                        else {
+                            if (paddedCreatedTime >= paddedUpdatedTime) {
+                                listsToAdd.push({
+                                    addedList: currentCreatedList,
+                                    type: activityType_1.ActivityType.createdList,
+                                    source: createdListsRes,
+                                });
+                                processedListIds.push(currentCreatedList.id);
+                            }
+                            else {
+                                listsToAdd.push({
+                                    addedList: currentUpdatedList,
+                                    type: activityType_1.ActivityType.updatedList,
+                                    source: updatedListsRes,
+                                });
+                                processedListIds.push(currentUpdatedList.id);
+                            }
+                        }
                     }
                     else {
-                        const buli = itemsRes.shift();
-                        if (!includedCreatedLists.includes(buli.userList)) {
-                            this.addBULIToResult(buli, result);
-                        }
+                        listsToAdd.push({
+                            addedList: currentCreatedList,
+                            type: activityType_1.ActivityType.createdList,
+                            source: createdListsRes,
+                        }, {
+                            addedList: currentUpdatedList,
+                            type: activityType_1.ActivityType.updatedList,
+                            source: updatedListsRes,
+                        });
+                        processedListIds.push(currentCreatedList.id, currentUpdatedList.id);
                     }
                 }
                 else {
-                    if (listsRes[0]) {
-                        const userList = listsRes.shift();
-                        this.addUserListToResult(userList, result);
-                        includedCreatedLists.push(userList.id);
+                    if (currentCreatedList) {
+                        listsToAdd.push({
+                            addedList: currentCreatedList,
+                            type: activityType_1.ActivityType.createdList,
+                            source: createdListsRes,
+                        });
+                        processedListIds.push(currentCreatedList.id);
+                    }
+                    else if (currentUpdatedList) {
+                        listsToAdd.push({
+                            addedList: currentUpdatedList,
+                            type: activityType_1.ActivityType.updatedList,
+                            source: updatedListsRes,
+                        });
+                        processedListIds.push(currentUpdatedList.id);
+                    }
+                }
+                listsToAdd.forEach(({ addedList, type, source }) => {
+                    this.addListToResult(addedList, type, result);
+                    source.shift();
+                });
+            }
+            if (showActivityOnPublicProfile) {
+                const userListsRes = completed[2];
+                const itemsRes = completed[3];
+                const includedCreatedUserLists = [];
+                while (userListsRes.length || itemsRes.length) {
+                    if (userListsRes[0] && itemsRes[0]) {
+                        const paddedListDate = new Date(userListsRes[0].createdAt.getTime() + 200);
+                        if (paddedListDate > itemsRes[0].updatedAt) {
+                            const userList = userListsRes.shift();
+                            this.addUserListToResult(userList, result);
+                            includedCreatedUserLists.push(userList.id);
+                        }
+                        else {
+                            const buli = itemsRes.shift();
+                            if (!includedCreatedUserLists.includes(buli.userList)) {
+                                this.addBULIToResult(buli, result);
+                            }
+                        }
                     }
                     else {
-                        const buli = itemsRes.shift();
-                        if (!includedCreatedLists.includes(buli.userList)) {
-                            this.addBULIToResult(buli, result);
+                        if (userListsRes[0]) {
+                            const userList = userListsRes.shift();
+                            this.addUserListToResult(userList, result);
+                            includedCreatedUserLists.push(userList.id);
+                        }
+                        else {
+                            const buli = itemsRes.shift();
+                            if (!includedCreatedUserLists.includes(buli.userList)) {
+                                this.addBULIToResult(buli, result);
+                            }
                         }
                     }
                 }
             }
-            return new responseWrappers_1.DataTotalResponse(result);
+            const sortedAndTrimmedResult = result
+                .sort((a, b) => new Date(b.timeStamp).getTime() - new Date(a.timeStamp).getTime())
+                .slice(0, count);
+            return new responseWrappers_1.DataTotalResponse(sortedAndTrimmedResult);
         }
         catch (error) {
             exceptionWrappers_1.handleHttpRequestError(error);
@@ -172,12 +271,19 @@ let BookUsersService = class BookUsersService {
     addBULIToResult(buli, result) {
         result.push(new recentActivity_1.RecentBULIActivity(buli.userList, activityType_1.ActivityType.progress, buli.updatedAt, buli.status, buli.owned, buli.bookListItem.meta.title, buli.rating));
     }
+    addListToResult(list, activityType, result) {
+        const timeStamp = activityType === activityType_1.ActivityType.createdList
+            ? list.createdAt
+            : list.updatedAt;
+        result.push(new recentActivity_1.RecentListActivity(list.id, activityType, timeStamp, list.title));
+    }
 };
 BookUsersService = __decorate([
     common_1.Injectable(),
-    __param(2, mongoose_1.InjectModel(userProfile_schema_1.UserProfile.name)),
+    __param(3, mongoose_1.InjectModel(userProfile_schema_1.UserProfile.name)),
     __metadata("design:paramtypes", [userLists_service_1.UserListsService,
         buli_service_1.BULIService,
+        lists_service_1.ListsService,
         mongoose_2.Model])
 ], BookUsersService);
 exports.BookUsersService = BookUsersService;

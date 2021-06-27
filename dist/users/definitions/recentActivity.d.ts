@@ -26,3 +26,10 @@ export declare class RecentBULIActivity extends RecentActivity {
     rating?: number | null;
     constructor(identifier: StringIdType, type: ActivityType, timeStamp: Date, status: BookReadingStatus, owned: boolean, title: string, rating?: number | null);
 }
+export declare class RecentListActivity extends RecentActivity {
+    identifier: StringIdType;
+    type: ActivityType;
+    timeStamp: Date;
+    title: string;
+    constructor(identifier: StringIdType, type: ActivityType, timeStamp: Date, title: string);
+}

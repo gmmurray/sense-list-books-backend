@@ -1,1 +1,1 @@
-{"version":3,"file":"activityType.js","sourceRoot":"","sources":["../../../src/users/definitions/activityType.ts"],"names":[],"mappings":";;;AAAA,IAAY,YAGX;AAHD,WAAY,YAAY;IACtB,iDAAK,CAAA;IACL,uDAAQ,CAAA;AACV,CAAC,EAHW,YAAY,GAAZ,oBAAY,KAAZ,oBAAY,QAGvB"}
+{"version":3,"file":"activityType.js","sourceRoot":"","sources":["../../../src/users/definitions/activityType.ts"],"names":[],"mappings":";;;AAAA,IAAY,YAKX;AALD,WAAY,YAAY;IACtB,iDAAK,CAAA;IACL,uDAAQ,CAAA;IACR,6DAAW,CAAA;IACX,6DAAW,CAAA;AACb,CAAC,EALW,YAAY,GAAZ,oBAAY,KAAZ,oBAAY,QAKvB"}

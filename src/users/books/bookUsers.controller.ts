@@ -16,7 +16,6 @@ import { Permissions } from 'src/authz/permissions.decorator';
 import { PermissionsGuard } from 'src/authz/permissions.guard';
 import { DataTotalResponse } from 'src/common/types/responseWrappers';
 import { UserListDto } from 'src/userLists/definitions/userList.dto';
-import { RecentActivity } from '../definitions/recentActivity';
 import {
   CreateUserProfileDto,
   PatchUserProfileDto,
@@ -77,17 +76,6 @@ export class BookUsersController {
   //#endregion
 
   //#region activity
-
-  @UseGuards(AuthGuard('jwt'), PermissionsGuard)
-  @Get('activity/:count')
-  @Permissions(UserPermissions.read)
-  async getRecentActivity(
-    @Req() { user }: AuthRequest,
-    @Param('count') count: string,
-  ): Promise<DataTotalResponse<RecentActivity>> {
-    const userId = user.sub;
-    return await this.bookUsersService.getRecentActivity(userId, count);
-  }
 
   @UseGuards(AuthGuard('jwt'), PermissionsGuard)
   @Get('active-lists/:count')

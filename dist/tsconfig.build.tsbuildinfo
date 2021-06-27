@@ -1737,8 +1737,8 @@
         "affectsGlobalScope": false
       },
       "../src/lists/lists.service.ts": {
-        "version": "1ca5db79427540e7c39f1e2bf2f03ea7f558073f03b5e3ba4970be0eaf617d76",
-        "signature": "dd20feebeef8dd2102f2db0178793591075b1b56fa2d2227883083353c5c02ae",
+        "version": "8aec55dcac0fcdf21a9c4423e837e9495c318f88121431907fca72886f23aa13",
+        "signature": "f6af60dff38e97c4a0e3e1b6bd16b08fac6746619ac6b7d65651091f6841c991",
         "affectsGlobalScope": false
       },
       "../src/listitems/listitems.service.ts": {
@@ -2177,13 +2177,13 @@
         "affectsGlobalScope": false
       },
       "../src/users/definitions/activitytype.ts": {
-        "version": "f837a8c45969974dee1284df7909f7ceab68098f0cc8e9979ffd75d3f917bcaa",
-        "signature": "491cc70a8e7761017d827d6af9fb3542259357889a175da53f765a65202579ad",
+        "version": "7cb8b503a813e123427419f66a8bcce0ed1f5fea7f20e407e895b877b490dad0",
+        "signature": "a6ef1fae8bf8293f92c9d1e5a2f6a3dd2d6978b1948614f6fed036d08cb37fd4",
         "affectsGlobalScope": false
       },
       "../src/users/definitions/recentactivity.ts": {
-        "version": "0f1af19c3668ba9ea9ca00c43f5412600ba503311087046c2a6d86070746541d",
-        "signature": "046e0f904791bd0cab24a54d67a7838a90060bc635adac3ff2605076f52daa9b",
+        "version": "69f8b960d5e4891988389b22456042396bc9fc2d241d7ae0473450dddbb687f6",
+        "signature": "ee37e92eaf0d7463dc2e6e46e69d5537c32ec8322d57a2af41758e3af044e181",
         "affectsGlobalScope": false
       },
       "../src/users/definitions/userprofiles/privateuserfields.dto.ts": {
@@ -2192,7 +2192,7 @@
         "affectsGlobalScope": false
       },
       "../src/users/definitions/userprofiles/userprofile.dto.ts": {
-        "version": "c8ecf689ac5a2657a769220810aa40bfbf456c32d6f26647cb1c6def27105b90",
+        "version": "d343ef3368f47e7d41b7b5aae2373b1e41a29f8dc86c2682471838aef309cfd6",
         "signature": "0c9aa6a2b00f0d0f0fe7057f0c29f5c4c6707448534372ef70530a9e26ae230d",
         "affectsGlobalScope": false
       },
@@ -2202,17 +2202,17 @@
         "affectsGlobalScope": false
       },
       "../src/users/books/bookusers.service.ts": {
-        "version": "f0eaa5b5760bb2804d2e4e84e1314d08e0e8c321ce8c4cebd643cacdd0ac6da7",
-        "signature": "a3f493c628be8ad1895f498d121b3d8c6ee2378e1a7654eb3fcc10be9c69ec93",
+        "version": "cefb45a3b6accebcb7af40f18128666a08094e900c16be8e9728abc0fc2e7a8a",
+        "signature": "fedc8a2afc64b6e9afdb107f0bdbfa2332aa864ca421f161456c687668d7d5ae",
         "affectsGlobalScope": false
       },
       "../src/users/books/bookusers.controller.ts": {
-        "version": "4eb71643ff66f0671572c18c44ae3140c16b2b0f5222cdc4c19ecb47fd8008f7",
-        "signature": "db632974312f0568f79ece98619a1bc118b22d66ece45231dafddd5d78e14073",
+        "version": "016530487109a97afcf4d9853624f9719ef239d07dfa7b26ff300ab45821a7d3",
+        "signature": "53fe2c1201528a11a4b787c9138d4f5239a8e3963c4529257a2b41c35f1a60c4",
         "affectsGlobalScope": false
       },
       "../src/users/books/bookusers.module.ts": {
-        "version": "5df224dd87d89d999ec858388ca6fcd8c4df259605ea8156cd4c204ca05432df",
+        "version": "bf48f0b34b95f51d12793e59c5c01397f757d15cc0821843cc585914c8ab2d28",
         "signature": "9c1ea1615ba39b07a721f935406d79641f0fe6af3f4b60bc43fb1c3455de9390",
         "affectsGlobalScope": false
       },
@@ -4377,12 +4377,12 @@
         "../src/common/types/responsewrappers.ts",
         "../src/userlists/definitions/userlist.dto.ts",
         "../src/users/books/bookusers.service.ts",
-        "../src/users/definitions/recentactivity.ts",
         "../src/users/definitions/userprofiles/userprofile.dto.ts"
       ],
       "../src/users/books/bookusers.module.ts": [
         "../node_modules/@nestjs/common/index.d.ts",
         "../node_modules/@nestjs/mongoose/index.d.ts",
+        "../src/lists/lists.module.ts",
         "../src/userlistitems/userlistitems.module.ts",
         "../src/userlists/userlists.module.ts",
         "../src/users/books/bookusers.controller.ts",
@@ -4402,6 +4402,7 @@
         "../src/constants/activity.ts",
         "../src/listitems/books/definitions/booklistitem.dto.ts",
         "../src/lists/definitions/list.dto.ts",
+        "../src/lists/lists.service.ts",
         "../src/userlistitems/books/buli.service.ts",
         "../src/userlistitems/books/definitions/buli.dto.ts",
         "../src/userlists/definitions/userlist.dto.ts",
@@ -6165,12 +6166,12 @@
         "../src/common/types/responsewrappers.ts",
         "../src/userlists/definitions/userlist.dto.ts",
         "../src/users/books/bookusers.service.ts",
-        "../src/users/definitions/recentactivity.ts",
         "../src/users/definitions/userprofiles/userprofile.dto.ts"
       ],
       "../src/users/books/bookusers.service.ts": [
         "../node_modules/mongoose/index.d.ts",
         "../src/common/types/responsewrappers.ts",
+        "../src/lists/lists.service.ts",
         "../src/userlistitems/books/buli.service.ts",
         "../src/userlists/definitions/userlist.dto.ts",
         "../src/userlists/userlists.service.ts",

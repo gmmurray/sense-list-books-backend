@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ListsModule } from 'src/lists/lists.module';
 import { UserListItemsModule } from 'src/userListItems/userListItems.module';
 import { UserListsModule } from 'src/userLists/userLists.module';
 import {
@@ -13,6 +14,7 @@ import { BookUsersService } from './bookUsers.service';
   imports: [
     UserListsModule,
     UserListItemsModule,
+    ListsModule,
     MongooseModule.forFeature([
       {
         name: UserProfile.name,

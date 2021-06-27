@@ -20,6 +20,8 @@ export declare class ListsService {
     getListWithReadAccess(userId: string, listId: StringIdType): Promise<ListDocument>;
     getListWithWriteAccess(userId: string, listId: StringIdType): Promise<ListDocument>;
     updateListItemsInList(listId: Types.ObjectId, userId: string, operation: '$pull' | '$push', field: string, value: StringIdType, session: ClientSession): Promise<void>;
+    findMostRecentCreated(ownerId: string, count: number, isOwnProfile: boolean): Promise<ListDto[]>;
+    findMostRecentUpdated(ownerId: string, count: number, isOwnProfile: boolean): Promise<ListDto[]>;
     private static getQueryFilter;
     static hasListSchemaReadAccess(userId: string): FilterQuery<List>;
     static hasListSchemaWriteAccess(userId: string): FilterQuery<List>;

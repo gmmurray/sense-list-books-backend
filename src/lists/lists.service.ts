@@ -305,6 +305,46 @@ export class ListsService {
     }
   }
 
+  async findMostRecentCreated(
+    ownerId: string,
+    count: number,
+    isOwnProfile: boolean,
+  ): Promise<ListDto[]> {
+    try {
+      const query = isOwnProfile
+        ? { ownerId }
+        : { $and: [{ ownerId, isPublic: true }] };
+      const result = await this.listModel
+        .find({ ...query })
+        .sort({ createdAt: 'desc' })
+        .limit(count)
+        .exec();
+      return result.map(doc => ListDto.assign(doc));
+    } catch (error) {
+      handleHttpRequestError(error);
+    }
+  }
+
+  async findMostRecentUpdated(
+    ownerId: string,
+    count: number,
+    isOwnProfile: boolean,
+  ): Promise<ListDto[]> {
+    try {
+      const query = isOwnProfile
+        ? { ownerId }
+        : { $and: [{ ownerId, isPublic: true }] };
+      const result = await this.listModel
+        .find({ ...query })
+        .sort({ updatedAt: 'desc' })
+        .limit(count)
+        .exec();
+      return result.map(doc => ListDto.assign(doc));
+    } catch (error) {
+      handleHttpRequestError(error);
+    }
+  }
+
   //#endregion
 
   //#region private methods

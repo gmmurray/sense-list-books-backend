@@ -185,6 +185,38 @@ let ListsService = ListsService_1 = class ListsService {
             exceptionWrappers_1.handleHttpRequestError(error);
         }
     }
+    async findMostRecentCreated(ownerId, count, isOwnProfile) {
+        try {
+            const query = isOwnProfile
+                ? { ownerId }
+                : { $and: [{ ownerId, isPublic: true }] };
+            const result = await this.listModel
+                .find(Object.assign({}, query))
+                .sort({ createdAt: 'desc' })
+                .limit(count)
+                .exec();
+            return result.map(doc => list_dto_1.ListDto.assign(doc));
+        }
+        catch (error) {
+            exceptionWrappers_1.handleHttpRequestError(error);
+        }
+    }
+    async findMostRecentUpdated(ownerId, count, isOwnProfile) {
+        try {
+            const query = isOwnProfile
+                ? { ownerId }
+                : { $and: [{ ownerId, isPublic: true }] };
+            const result = await this.listModel
+                .find(Object.assign({}, query))
+                .sort({ updatedAt: 'desc' })
+                .limit(count)
+                .exec();
+            return result.map(doc => list_dto_1.ListDto.assign(doc));
+        }
+        catch (error) {
+            exceptionWrappers_1.handleHttpRequestError(error);
+        }
+    }
     static getQueryFilter(queryListDto) {
         const result = {};
         let keys = Object.keys(queryListDto);
