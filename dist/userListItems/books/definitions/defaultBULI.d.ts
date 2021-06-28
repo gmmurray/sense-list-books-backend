@@ -11,8 +11,8 @@ export declare class DefaultBULI {
     bookListItem: Types.ObjectId | BookListItemDocument;
     status: BookReadingStatus;
     owned: boolean;
-    format: BookFormatType | null;
+    format: BookFormatType;
     rating?: number | null;
-    constructor(userList: Types.ObjectId | UserListDocument, userId: string, notes: string, bookListItem: Types.ObjectId | BookListItemDocument, status: BookReadingStatus, owned: boolean, format: BookFormatType | null, rating?: number | null);
+    constructor(userList: Types.ObjectId | UserListDocument, userId: string, notes: string, bookListItem: Types.ObjectId | BookListItemDocument, status: BookReadingStatus, owned: boolean, format: BookFormatType, rating?: number | null);
     static createDefault(userId: string, userListId: StringIdType, bookListItemId: StringIdType): DefaultBULI;
 }

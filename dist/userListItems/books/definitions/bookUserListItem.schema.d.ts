@@ -9,6 +9,6 @@ export declare class BookUserListItem extends UserListItem {
     status: BookReadingStatus;
     owned: boolean;
     rating: number | null;
-    format: BookFormatType | null;
+    format: BookFormatType;
 }
 export declare const BookUserListItemSchema: import("mongoose").Schema<Document<BookUserListItem, {}>, import("mongoose").Model<any, any>, undefined>;

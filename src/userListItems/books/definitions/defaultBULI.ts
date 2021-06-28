@@ -13,7 +13,7 @@ export class DefaultBULI {
     public bookListItem: Types.ObjectId | BookListItemDocument,
     public status: BookReadingStatus,
     public owned: boolean,
-    public format: BookFormatType | null,
+    public format: BookFormatType,
     public rating?: number | null,
   ) {}
 

@@ -35,7 +35,7 @@ __decorate([
     __metadata("design:type", Number)
 ], BookUserListItem.prototype, "rating", void 0);
 __decorate([
-    mongoose_1.Prop({ default: null }),
+    mongoose_1.Prop({ default: bookFormatType_1.BookFormatType.Physical }),
     __metadata("design:type", Number)
 ], BookUserListItem.prototype, "format", void 0);
 BookUserListItem = __decorate([

@@ -24,8 +24,8 @@ export class BookUserListItem extends UserListItem {
   @Prop({ default: null })
   rating: number | null;
 
-  @Prop({ default: null })
-  format: BookFormatType | null;
+  @Prop({ default: BookFormatType.Physical })
+  format: BookFormatType;
 }
 
 export const BookUserListItemSchema = SchemaFactory.createForClass(

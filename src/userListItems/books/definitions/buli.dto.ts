@@ -18,7 +18,7 @@ export class BULIDto extends UserListItemDto {
     public status: BookReadingStatus,
     public owned: boolean,
     baseProperties: UserListItemDto,
-    public format?: BookFormatType | null,
+    public format?: BookFormatType,
     public rating?: number | null,
   ) {
     super();
@@ -106,7 +106,7 @@ export class CreateBULIDto {
     public owned: boolean,
     public rating?: number | null,
     public notes?: string,
-    public format?: BookFormatType | null,
+    public format?: BookFormatType,
   ) {}
 }
 
@@ -115,7 +115,7 @@ export class PatchBULIDto {
   public status: BookReadingStatus;
   public owned: boolean;
   public rating: number | null;
-  public format: BookFormatType | null;
+  public format: BookFormatType;
   constructor({
     notes = undefined,
     status = undefined,
