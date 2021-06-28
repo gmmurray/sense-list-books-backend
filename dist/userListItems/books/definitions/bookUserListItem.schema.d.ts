@@ -1,4 +1,5 @@
 import { Document, Types } from 'mongoose';
+import { BookFormatType } from 'src/common/types/bookFormatType';
 import { BookReadingStatus } from 'src/common/types/userListItemStatus';
 import { BookListItemDocument } from 'src/listItems/books/definitions/bookListItem.schema';
 import { UserListItem } from '../../definitions/userListItem.schema';
@@ -8,5 +9,6 @@ export declare class BookUserListItem extends UserListItem {
     status: BookReadingStatus;
     owned: boolean;
     rating: number | null;
+    format: BookFormatType | null;
 }
 export declare const BookUserListItemSchema: import("mongoose").Schema<Document<BookUserListItem, {}>, import("mongoose").Model<any, any>, undefined>;

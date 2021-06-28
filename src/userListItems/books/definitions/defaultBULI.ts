@@ -1,4 +1,5 @@
 import { Types } from 'mongoose';
+import { BookFormatType } from 'src/common/types/bookFormatType';
 import { StringIdType } from 'src/common/types/stringIdType';
 import { BookReadingStatus } from 'src/common/types/userListItemStatus';
 import { BookListItemDocument } from 'src/listItems/books/definitions/bookListItem.schema';
@@ -12,6 +13,7 @@ export class DefaultBULI {
     public bookListItem: Types.ObjectId | BookListItemDocument,
     public status: BookReadingStatus,
     public owned: boolean,
+    public format: BookFormatType | null,
     public rating?: number | null,
   ) {}
 
@@ -27,6 +29,7 @@ export class DefaultBULI {
       new Types.ObjectId(bookListItemId),
       BookReadingStatus.notStarted,
       false,
+      null,
       null,
     );
   }

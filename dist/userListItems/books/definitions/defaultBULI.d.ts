@@ -1,4 +1,5 @@
 import { Types } from 'mongoose';
+import { BookFormatType } from 'src/common/types/bookFormatType';
 import { StringIdType } from 'src/common/types/stringIdType';
 import { BookReadingStatus } from 'src/common/types/userListItemStatus';
 import { BookListItemDocument } from 'src/listItems/books/definitions/bookListItem.schema';
@@ -10,7 +11,8 @@ export declare class DefaultBULI {
     bookListItem: Types.ObjectId | BookListItemDocument;
     status: BookReadingStatus;
     owned: boolean;
+    format: BookFormatType | null;
     rating?: number | null;
-    constructor(userList: Types.ObjectId | UserListDocument, userId: string, notes: string, bookListItem: Types.ObjectId | BookListItemDocument, status: BookReadingStatus, owned: boolean, rating?: number | null);
+    constructor(userList: Types.ObjectId | UserListDocument, userId: string, notes: string, bookListItem: Types.ObjectId | BookListItemDocument, status: BookReadingStatus, owned: boolean, format: BookFormatType | null, rating?: number | null);
     static createDefault(userId: string, userListId: StringIdType, bookListItemId: StringIdType): DefaultBULI;
 }

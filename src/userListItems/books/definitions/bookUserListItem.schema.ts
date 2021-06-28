@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
+import { BookFormatType } from 'src/common/types/bookFormatType';
 
 import { BookReadingStatus } from 'src/common/types/userListItemStatus';
 import { BookListItemDocument } from 'src/listItems/books/definitions/bookListItem.schema';
@@ -22,6 +23,9 @@ export class BookUserListItem extends UserListItem {
 
   @Prop({ default: null })
   rating: number | null;
+
+  @Prop({ default: null })
+  format: BookFormatType | null;
 }
 
 export const BookUserListItemSchema = SchemaFactory.createForClass(

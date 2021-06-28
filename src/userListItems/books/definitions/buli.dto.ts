@@ -1,4 +1,5 @@
 import { Document, Types } from 'mongoose';
+import { BookFormatType } from 'src/common/types/bookFormatType';
 import { StringIdType } from 'src/common/types/stringIdType';
 import { BookReadingStatus } from 'src/common/types/userListItemStatus';
 import { BookListItemDto } from 'src/listItems/books/definitions/bookListItem.dto';
@@ -17,6 +18,7 @@ export class BULIDto extends UserListItemDto {
     public status: BookReadingStatus,
     public owned: boolean,
     baseProperties: UserListItemDto,
+    public format?: BookFormatType | null,
     public rating?: number | null,
   ) {
     super();
@@ -49,6 +51,7 @@ export class BULIDto extends UserListItemDto {
         createdAt: doc.createdAt,
         updatedAt: doc.updatedAt,
       },
+      doc.owned ? doc.format : null,
       doc.rating,
     );
   }
@@ -65,6 +68,7 @@ export class BULIDto extends UserListItemDto {
         createdAt: doc.createdAt,
         updatedAt: doc.updatedAt,
       },
+      doc.owned ? doc.format : null,
       doc.rating,
     );
   }
@@ -87,6 +91,7 @@ export class BULIDto extends UserListItemDto {
         createdAt: doc.createdAt,
         updatedAt: doc.updatedAt,
       },
+      doc.owned ? doc.format : null,
       doc.rating,
     );
   }
@@ -101,6 +106,7 @@ export class CreateBULIDto {
     public owned: boolean,
     public rating?: number | null,
     public notes?: string,
+    public format?: BookFormatType | null,
   ) {}
 }
 
@@ -109,15 +115,18 @@ export class PatchBULIDto {
   public status: BookReadingStatus;
   public owned: boolean;
   public rating: number | null;
+  public format: BookFormatType | null;
   constructor({
     notes = undefined,
     status = undefined,
     owned = undefined,
     rating = undefined,
+    format = undefined,
   }) {
     this.notes = notes;
     this.status = status;
     this.owned = owned;
     this.rating = rating;
+    this.format = format;
   }
 }

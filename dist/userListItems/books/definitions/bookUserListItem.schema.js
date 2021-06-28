@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.BookUserListItemSchema = exports.BookUserListItem = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
+const bookFormatType_1 = require("../../../common/types/bookFormatType");
 const userListItemStatus_1 = require("../../../common/types/userListItemStatus");
 const bookListItem_schema_1 = require("../../../listItems/books/definitions/bookListItem.schema");
 const userListItem_schema_1 = require("../../definitions/userListItem.schema");
@@ -33,6 +34,10 @@ __decorate([
     mongoose_1.Prop({ default: null }),
     __metadata("design:type", Number)
 ], BookUserListItem.prototype, "rating", void 0);
+__decorate([
+    mongoose_1.Prop({ default: null }),
+    __metadata("design:type", Number)
+], BookUserListItem.prototype, "format", void 0);
 BookUserListItem = __decorate([
     mongoose_1.Schema({ timestamps: true })
 ], BookUserListItem);
