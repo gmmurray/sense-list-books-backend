@@ -33,6 +33,11 @@ import {
 import { BULIDto, CreateBULIDto, PatchBULIDto } from './definitions/buli.dto';
 import { DefaultBULI } from './definitions/defaultBULI';
 import { StringIdType } from 'src/common/types/stringIdType';
+import { UserStatistics } from 'src/users/definitions/statistics/userStatistics';
+import { BookReadingStatus } from 'src/common/types/userListItemStatus';
+import { BookFormatType } from 'src/common/types/bookFormatType';
+import { BookListItemDto } from 'src/listItems/books/definitions/bookListItem.dto';
+import { UserListDto } from 'src/userLists/definitions/userList.dto';
 
 export class BULIService extends UserListItemsService<
   BookUserListItemDocument,
@@ -58,6 +63,27 @@ export class BULIService extends UserListItemsService<
   async findAll(userId: string): Promise<DataTotalResponse<BULIDto>> {
     try {
       const items = await this.bookModel.find({ userId }).exec();
+
+      if (!items) throw new MongooseError.DocumentNotFoundError(null);
+
+      return new DataTotalResponse(items.map(doc => BULIDto.assign(doc)));
+    } catch (error) {
+      handleHttpRequestError(error);
+    }
+  }
+
+  async findAllPopulated(userId: string): Promise<DataTotalResponse<BULIDto>> {
+    try {
+      const items = await this.bookModel
+        .find({ userId })
+        .populate({
+          path: getSingleListItemPropName(ListType.Book),
+          model: getListItemModelName(ListType.Book),
+        })
+        .populate({
+          path: getSingleUserListPropName(),
+        })
+        .exec();
 
       if (!items) throw new MongooseError.DocumentNotFoundError(null);
 
@@ -343,6 +369,57 @@ export class BULIService extends UserListItemsService<
     return await this.bookModel
       .find({ bookListItem: { $in: listItemIds } })
       .exec();
+  }
+
+  async getAggregateItemStatistics(
+    userId: string,
+  ): Promise<Partial<UserStatistics>> {
+    const res = await this.findAllPopulated(userId);
+    const userListItems = res.data;
+    let pagesReadCount = 0;
+    const relatedUserLists: UserListDto[] = [];
+    const completedUserLists2: { [key: string]: number } = {};
+    let booksReadCount = 0;
+    const booksOwned: { [key: number]: number } = {};
+
+    userListItems.forEach(item => {
+      if (item.status === BookReadingStatus.completed) {
+        booksReadCount++;
+        pagesReadCount += (item.bookListItem as BookListItemDto).meta.pageCount;
+
+        const completedItemsForList =
+          completedUserLists2[(item.userList as UserListDto).id.toString()] ||
+          0;
+        completedUserLists2[(item.userList as UserListDto).id.toString()] =
+          completedItemsForList + 1;
+
+        if (
+          !relatedUserLists.some(ul =>
+            ul.id.equals((item.userList as UserListDto).id),
+          )
+        ) {
+          relatedUserLists.push(item.userList as UserListDto);
+        }
+      }
+
+      if (item.owned) {
+        const booksOwnedForType =
+          booksOwned[item.format || BookFormatType.Physical] ?? 0;
+        booksOwned[item.format || BookFormatType.Physical] =
+          booksOwnedForType + 1;
+      }
+    });
+
+    const completedUserLists = relatedUserLists.filter(
+      ul => ul.userListItems.length === completedUserLists2[ul.id.toString()],
+    ).length;
+
+    return {
+      pagesReadCount,
+      listsCompletedCount: completedUserLists,
+      booksReadCount,
+      booksOwned,
+    };
   }
 }
 

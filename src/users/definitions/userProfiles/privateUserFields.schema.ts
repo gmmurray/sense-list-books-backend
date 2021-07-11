@@ -6,6 +6,7 @@ export type PrivateUserFieldsDocument = PrivateUserFields & Document;
 export const defaultRecentActivityCount = 5;
 export const defaultActiveListsCount = 3;
 export const defaultShowActivityOnPublicProfile = false;
+export const defaultPubliclyShowUserStatistics = true;
 
 @Schema()
 export class PrivateUserFields {
@@ -17,4 +18,7 @@ export class PrivateUserFields {
 
   @Prop({ default: defaultShowActivityOnPublicProfile })
   showActivityOnPublicProfile: boolean;
+
+  @Prop({ default: defaultPubliclyShowUserStatistics })
+  publiclyShowUserStatistics: boolean;
 }

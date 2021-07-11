@@ -27,6 +27,11 @@ const bookUserListItem_schema_1 = require("./definitions/bookUserListItem.schema
 const buli_dto_1 = require("./definitions/buli.dto");
 const defaultBULI_1 = require("./definitions/defaultBULI");
 const stringIdType_1 = require("../../common/types/stringIdType");
+const userStatistics_1 = require("../../users/definitions/statistics/userStatistics");
+const userListItemStatus_1 = require("../../common/types/userListItemStatus");
+const bookFormatType_1 = require("../../common/types/bookFormatType");
+const bookListItem_dto_1 = require("../../listItems/books/definitions/bookListItem.dto");
+const userList_dto_1 = require("../../userLists/definitions/userList.dto");
 let BULIService = class BULIService extends userListItem_service_1.UserListItemsService {
     constructor(bookModel, connection, userListService) {
         super(bookModel, connection, userListService);
@@ -37,6 +42,26 @@ let BULIService = class BULIService extends userListItem_service_1.UserListItems
     async findAll(userId) {
         try {
             const items = await this.bookModel.find({ userId }).exec();
+            if (!items)
+                throw new mongoose_2.Error.DocumentNotFoundError(null);
+            return new responseWrappers_1.DataTotalResponse(items.map(doc => buli_dto_1.BULIDto.assign(doc)));
+        }
+        catch (error) {
+            exceptionWrappers_1.handleHttpRequestError(error);
+        }
+    }
+    async findAllPopulated(userId) {
+        try {
+            const items = await this.bookModel
+                .find({ userId })
+                .populate({
+                path: mongooseTableHelpers_1.getSingleListItemPropName(listType_1.ListType.Book),
+                model: mongooseTableHelpers_1.getListItemModelName(listType_1.ListType.Book),
+            })
+                .populate({
+                path: mongooseTableHelpers_1.getSingleUserListPropName(),
+            })
+                .exec();
             if (!items)
                 throw new mongoose_2.Error.DocumentNotFoundError(null);
             return new responseWrappers_1.DataTotalResponse(items.map(doc => buli_dto_1.BULIDto.assign(doc)));
@@ -193,6 +218,41 @@ let BULIService = class BULIService extends userListItem_service_1.UserListItems
         return await this.bookModel
             .find({ bookListItem: { $in: listItemIds } })
             .exec();
+    }
+    async getAggregateItemStatistics(userId) {
+        const res = await this.findAllPopulated(userId);
+        const userListItems = res.data;
+        let pagesReadCount = 0;
+        const relatedUserLists = [];
+        const completedUserLists2 = {};
+        let booksReadCount = 0;
+        const booksOwned = {};
+        userListItems.forEach(item => {
+            var _a;
+            if (item.status === userListItemStatus_1.BookReadingStatus.completed) {
+                booksReadCount++;
+                pagesReadCount += item.bookListItem.meta.pageCount;
+                const completedItemsForList = completedUserLists2[item.userList.id.toString()] ||
+                    0;
+                completedUserLists2[item.userList.id.toString()] =
+                    completedItemsForList + 1;
+                if (!relatedUserLists.some(ul => ul.id.equals(item.userList.id))) {
+                    relatedUserLists.push(item.userList);
+                }
+            }
+            if (item.owned) {
+                const booksOwnedForType = (_a = booksOwned[item.format || bookFormatType_1.BookFormatType.Physical]) !== null && _a !== void 0 ? _a : 0;
+                booksOwned[item.format || bookFormatType_1.BookFormatType.Physical] =
+                    booksOwnedForType + 1;
+            }
+        });
+        const completedUserLists = relatedUserLists.filter(ul => ul.userListItems.length === completedUserLists2[ul.id.toString()]).length;
+        return {
+            pagesReadCount,
+            listsCompletedCount: completedUserLists,
+            booksReadCount,
+            booksOwned,
+        };
     }
 };
 BULIService = __decorate([

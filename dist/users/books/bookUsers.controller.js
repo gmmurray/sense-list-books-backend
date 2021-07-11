@@ -47,6 +47,10 @@ let BookUsersController = class BookUsersController {
         const userId = user.sub;
         return await this.bookUsersService.getActiveLists(userId, count);
     }
+    async getUserStatistics({ user }, authId) {
+        const userId = user.sub;
+        return await this.bookUsersService.getUserStatistics(authId, userId);
+    }
 };
 __decorate([
     common_1.UseGuards(passport_1.AuthGuard('jwt'), permissions_guard_1.PermissionsGuard),
@@ -97,6 +101,16 @@ __decorate([
     __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", Promise)
 ], BookUsersController.prototype, "getActiveLists", null);
+__decorate([
+    common_1.UseGuards(passport_1.AuthGuard('jwt'), permissions_guard_1.PermissionsGuard),
+    common_1.Get('statistics/:authId'),
+    permissions_decorator_1.Permissions(ApiPermissions_1.UserPermissions.read, ApiPermissions_1.ListApiPermissions.read, ApiPermissions_1.UserListApiPermissions.read, ApiPermissions_1.UserListItemApiPermissions.read, ApiPermissions_1.ListItemApiPermissions.read),
+    __param(0, common_1.Req()),
+    __param(1, common_1.Param('authId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String]),
+    __metadata("design:returntype", Promise)
+], BookUsersController.prototype, "getUserStatistics", null);
 BookUsersController = __decorate([
     common_1.Controller('books/users'),
     __metadata("design:paramtypes", [bookUsers_service_1.BookUsersService])

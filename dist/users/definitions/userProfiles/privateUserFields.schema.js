@@ -9,11 +9,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PrivateUserFields = exports.defaultShowActivityOnPublicProfile = exports.defaultActiveListsCount = exports.defaultRecentActivityCount = void 0;
+exports.PrivateUserFields = exports.defaultPubliclyShowUserStatistics = exports.defaultShowActivityOnPublicProfile = exports.defaultActiveListsCount = exports.defaultRecentActivityCount = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 exports.defaultRecentActivityCount = 5;
 exports.defaultActiveListsCount = 3;
 exports.defaultShowActivityOnPublicProfile = false;
+exports.defaultPubliclyShowUserStatistics = true;
 let PrivateUserFields = class PrivateUserFields {
 };
 __decorate([
@@ -28,6 +29,10 @@ __decorate([
     mongoose_1.Prop({ default: exports.defaultShowActivityOnPublicProfile }),
     __metadata("design:type", Boolean)
 ], PrivateUserFields.prototype, "showActivityOnPublicProfile", void 0);
+__decorate([
+    mongoose_1.Prop({ default: exports.defaultPubliclyShowUserStatistics }),
+    __metadata("design:type", Boolean)
+], PrivateUserFields.prototype, "publiclyShowUserStatistics", void 0);
 PrivateUserFields = __decorate([
     mongoose_1.Schema()
 ], PrivateUserFields);

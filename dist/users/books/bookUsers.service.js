@@ -67,6 +67,30 @@ let BookUsersService = class BookUsersService {
             exceptionWrappers_1.handleHttpRequestError(error);
         }
     }
+    async getUserStatistics(authId, userId) {
+        const isStatisticsOwner = authId == userId;
+        try {
+            const userProfileSettings = await this.getUserProfileSettings(authId);
+            if (!userProfileSettings ||
+                (!isStatisticsOwner && !userProfileSettings.publiclyShowUserStatistics)) {
+                return null;
+            }
+            const requests = [
+                this.buliService.getAggregateItemStatistics(authId),
+            ];
+            if (isStatisticsOwner) {
+                requests.push(this.listsService.getAllListsByUser(authId));
+            }
+            else {
+                requests.push(this.listsService.getPublicListsByUser(authId));
+            }
+            const [userItemStatistics, listsByUser] = await Promise.all(requests);
+            return Object.assign(Object.assign({}, userItemStatistics), { listCount: listsByUser.length });
+        }
+        catch (error) {
+            exceptionWrappers_1.handleHttpRequestError(error);
+        }
+    }
     async patchUserProfile(patchDto, userId) {
         try {
             const dto = dtoHelpers_1.cleanDtoFields(patchDto);
@@ -260,6 +284,19 @@ let BookUsersService = class BookUsersService {
                 throw new common_1.BadRequestException();
             const userLists = await this.userListsService.findMostRecentActive(userId, queryCount, listType_1.ListType.Book);
             return new responseWrappers_1.DataTotalResponse(userLists);
+        }
+        catch (error) {
+            exceptionWrappers_1.handleHttpRequestError(error);
+        }
+    }
+    async getUserProfileSettings(authId) {
+        try {
+            const userProfile = await this.userProfileModel
+                .findOne({ authId })
+                .populate(mongooseTableHelpers_1.getUserProfileListCountPropName());
+            if (!userProfile)
+                throw new mongoose_2.Error.DocumentNotFoundError(null);
+            return userProfile_dto_1.UserProfileDto.assign(userProfile, null).privateFields;
         }
         catch (error) {
             exceptionWrappers_1.handleHttpRequestError(error);

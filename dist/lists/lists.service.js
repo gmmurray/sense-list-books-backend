@@ -217,6 +217,14 @@ let ListsService = ListsService_1 = class ListsService {
             exceptionWrappers_1.handleHttpRequestError(error);
         }
     }
+    async getPublicListsByUser(userId) {
+        return await this.listModel
+            .find({ $and: [{ ownerId: userId }, { isPublic: true }] })
+            .exec();
+    }
+    async getAllListsByUser(userId) {
+        return await this.listModel.find({ ownerId: userId }).exec();
+    }
     static getQueryFilter(queryListDto) {
         const result = {};
         let keys = Object.keys(queryListDto);

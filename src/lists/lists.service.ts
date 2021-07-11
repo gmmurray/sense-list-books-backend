@@ -345,6 +345,16 @@ export class ListsService {
     }
   }
 
+  async getPublicListsByUser(userId: string): Promise<ListDocument[]> {
+    return await this.listModel
+      .find({ $and: [{ ownerId: userId }, { isPublic: true }] })
+      .exec();
+  }
+
+  async getAllListsByUser(userId: string): Promise<ListDocument[]> {
+    return await this.listModel.find({ ownerId: userId }).exec();
+  }
+
   //#endregion
 
   //#region private methods

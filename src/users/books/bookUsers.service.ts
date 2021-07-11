@@ -25,6 +25,7 @@ import {
   RecentListActivity,
   RecentUserListActivity,
 } from '../definitions/recentActivity';
+import { UserStatistics } from '../definitions/statistics/userStatistics';
 import { PrivateUserFieldsDto } from '../definitions/userProfiles/privateUserFields.dto';
 import {
   CreateUserProfileDto,
@@ -80,6 +81,40 @@ export class BookUsersService {
     try {
       const result = await createdUserProfile.save();
       return UserProfileDto.assign(result, null);
+    } catch (error) {
+      handleHttpRequestError(error);
+    }
+  }
+
+  async getUserStatistics(
+    authId: string,
+    userId: string,
+  ): Promise<UserStatistics | null> {
+    const isStatisticsOwner = authId == userId;
+    try {
+      const userProfileSettings = await this.getUserProfileSettings(authId);
+      if (
+        !userProfileSettings ||
+        (!isStatisticsOwner && !userProfileSettings.publiclyShowUserStatistics)
+      ) {
+        return null;
+      }
+
+      const requests: any[] = [
+        this.buliService.getAggregateItemStatistics(authId),
+      ];
+
+      if (isStatisticsOwner) {
+        requests.push(this.listsService.getAllListsByUser(authId));
+      } else {
+        requests.push(this.listsService.getPublicListsByUser(authId));
+      }
+
+      const [userItemStatistics, listsByUser] = await Promise.all(requests);
+      return {
+        ...userItemStatistics,
+        listCount: listsByUser.length,
+      };
     } catch (error) {
       handleHttpRequestError(error);
     }
@@ -344,6 +379,22 @@ export class BookUsersService {
       );
 
       return new DataTotalResponse(userLists);
+    } catch (error) {
+      handleHttpRequestError(error);
+    }
+  }
+
+  private async getUserProfileSettings(
+    authId: string,
+  ): Promise<PrivateUserFieldsDto> {
+    try {
+      const userProfile = await this.userProfileModel
+        .findOne({ authId })
+        .populate(getUserProfileListCountPropName());
+
+      if (!userProfile) throw new MongooseError.DocumentNotFoundError(null);
+
+      return UserProfileDto.assign(userProfile, null).privateFields;
     } catch (error) {
       handleHttpRequestError(error);
     }

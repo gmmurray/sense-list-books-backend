@@ -10,12 +10,19 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { UserPermissions } from 'src/authz/ApiPermissions';
+import {
+  ListApiPermissions,
+  ListItemApiPermissions,
+  UserListApiPermissions,
+  UserListItemApiPermissions,
+  UserPermissions,
+} from 'src/authz/ApiPermissions';
 import { AuthRequest } from 'src/authz/authzUser';
 import { Permissions } from 'src/authz/permissions.decorator';
 import { PermissionsGuard } from 'src/authz/permissions.guard';
 import { DataTotalResponse } from 'src/common/types/responseWrappers';
 import { UserListDto } from 'src/userLists/definitions/userList.dto';
+import { UserStatistics } from '../definitions/statistics/userStatistics';
 import {
   CreateUserProfileDto,
   PatchUserProfileDto,
@@ -86,6 +93,23 @@ export class BookUsersController {
   ): Promise<DataTotalResponse<UserListDto>> {
     const userId = user.sub;
     return await this.bookUsersService.getActiveLists(userId, count);
+  }
+
+  @UseGuards(AuthGuard('jwt'), PermissionsGuard)
+  @Get('statistics/:authId')
+  @Permissions(
+    UserPermissions.read,
+    ListApiPermissions.read,
+    UserListApiPermissions.read,
+    UserListItemApiPermissions.read,
+    ListItemApiPermissions.read,
+  )
+  async getUserStatistics(
+    @Req() { user }: AuthRequest,
+    @Param('authId') authId: string,
+  ): Promise<UserStatistics> {
+    const userId = user.sub;
+    return await this.bookUsersService.getUserStatistics(authId, userId);
   }
 
   //#endregion

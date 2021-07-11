@@ -22,6 +22,8 @@ export declare class ListsService {
     updateListItemsInList(listId: Types.ObjectId, userId: string, operation: '$pull' | '$push', field: string, value: StringIdType, session: ClientSession): Promise<void>;
     findMostRecentCreated(ownerId: string, count: number, isOwnProfile: boolean): Promise<ListDto[]>;
     findMostRecentUpdated(ownerId: string, count: number, isOwnProfile: boolean): Promise<ListDto[]>;
+    getPublicListsByUser(userId: string): Promise<ListDocument[]>;
+    getAllListsByUser(userId: string): Promise<ListDocument[]>;
     private static getQueryFilter;
     static hasListSchemaReadAccess(userId: string): FilterQuery<List>;
     static hasListSchemaWriteAccess(userId: string): FilterQuery<List>;
