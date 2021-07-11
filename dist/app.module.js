@@ -18,6 +18,7 @@ const userLists_module_1 = require("./userLists/userLists.module");
 const userListItems_module_1 = require("./userListItems/userListItems.module");
 const googleBooks_module_1 = require("./googleBooks/googleBooks.module");
 const bookUsers_module_1 = require("./users/books/bookUsers.module");
+const serverStatus_module_1 = require("./serverStatus/serverStatus.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -34,6 +35,7 @@ AppModule = __decorate([
             userLists_module_1.UserListsModule,
             userListItems_module_1.UserListItemsModule,
             bookUsers_module_1.BookUsersModule,
+            serverStatus_module_1.ServerStatusModule,
         ],
     })
 ], AppModule);
