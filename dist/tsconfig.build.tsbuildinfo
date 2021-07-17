@@ -1887,7 +1887,7 @@
         "affectsGlobalScope": false
       },
       "../src/authz/permissions.decorator.ts": {
-        "version": "661d28a6e1b5666f670495881ff1d4796659b5573e0166cbd098168a20b4343a",
+        "version": "6a73409ce54a8648e25bd16626432bce38a6c004d708ac119b484cecd24a0de2",
         "signature": "45e120dc0daab061f1c8adeb4fb259cd1cf8f1da7f4e50933ad4b86da9fe7135",
         "affectsGlobalScope": false
       },
@@ -2072,7 +2072,7 @@
         "affectsGlobalScope": false
       },
       "../src/authz/permissions.guard.ts": {
-        "version": "812e7e96d081749adc4aa1f15143f2f30eca408d0a008ba4f0742a63cd0d4b37",
+        "version": "d2786a1ce4a315e9da2f89754a5a8c179d57d3bcea3cbb14065dbab9cf923fa6",
         "signature": "63bdc37683aa62a92159cea1882a8d8a3559af4dc740904856df993eb0647022",
         "affectsGlobalScope": false
       },
@@ -2187,7 +2187,7 @@
         "affectsGlobalScope": false
       },
       "../src/authz/authz.module.ts": {
-        "version": "c263ea4dcf31fc4182acf25433de979d8f6f81188c00f21c1bde8e9dd4f6a68a",
+        "version": "e8d3cc8fa0b8b38efb217936e0b9749256182b5495af3bef38ac401357e9ddd2",
         "signature": "d6fb7a8c2fed382c967803b8dad2fd636566a8a1ebabe70b9c74062c6dc39afe",
         "affectsGlobalScope": false
       },
@@ -2241,8 +2241,28 @@
         "signature": "9c1ea1615ba39b07a721f935406d79641f0fe6af3f4b60bc43fb1c3455de9390",
         "affectsGlobalScope": false
       },
+      "../src/serverstatus/definitions/serverstatus.ts": {
+        "version": "a73d7be12caa769172be7fc0dbc8c7611c25d915840ee799e1a16df4b4a58031",
+        "signature": "654f27dbd069079c62357b7d6d2eca6806ab3b9ef827e2f8057bfc68f3481b3a",
+        "affectsGlobalScope": false
+      },
+      "../src/serverstatus/serverstatus.service.ts": {
+        "version": "e95aa7c32fb444825b28882c119b9de966581bec530f124118c9e2dc4a01b2d3",
+        "signature": "bb4bde66007948ec7b88b71af30d1be41bb4b1827353b49cb3f6d8843a0e227e",
+        "affectsGlobalScope": false
+      },
+      "../src/serverstatus/serverstatus.controller.ts": {
+        "version": "7e805f14f1ea5c25798b15c69a2c0e82e55d30bd03e068e0ee0ae856d598e5ba",
+        "signature": "d7fb669ccedca40fc88d85a8c3506507129a55604e6789377467218f4d39e188",
+        "affectsGlobalScope": false
+      },
+      "../src/serverstatus/serverstatus.module.ts": {
+        "version": "72fc65c8710fdce6e0455c359885cff90ac1795e224be76c92e7df3dce63f408",
+        "signature": "97cccfb112e75c3369432386b4507e03257e8d33d29911c2972ae20ebe1531c2",
+        "affectsGlobalScope": false
+      },
       "../src/app.module.ts": {
-        "version": "20c875ebce96b54566fb5e701c3553aefabbc647723797b1757c54f3168beb89",
+        "version": "88b89c27c2c153b637a0f5fd86b1acde336db37d8f79910f68252e3fd76c4c01",
         "signature": "9fc7f7b6ad854404973b8cba8e6d883f758237991968e9a3965d716d46f1da88",
         "affectsGlobalScope": false
       },
@@ -2312,7 +2332,7 @@
         "affectsGlobalScope": false
       },
       "../src/main.ts": {
-        "version": "a0f73cd6eb0b576bfae5938d579a4a8c29a6e89fc9fb23a8219fb154fafbfd2f",
+        "version": "0f40ca0a0b55a6a2f6e3aad5fa60f83b81d3719b5b43745c563b59e987616e83",
         "signature": "f761c91419d0a89422a0004ef1a92929dd4d2d5e5c16758654d8b0467d1998c6",
         "affectsGlobalScope": false
       },
@@ -3997,6 +4017,7 @@
         "../src/listitems/listitems.module.ts",
         "../src/lists/lists.module.ts",
         "../src/openlibrary/openlibrary.module.ts",
+        "../src/serverstatus/serverstatus.module.ts",
         "../src/userlistitems/userlistitems.module.ts",
         "../src/userlists/userlists.module.ts",
         "../src/users/books/bookusers.module.ts"
@@ -4248,6 +4269,20 @@
         "../src/common/types/responsewrappers.ts",
         "../src/openlibrary/openlibrarybook.ts",
         "../src/openlibrary/openlibrarysearch.ts"
+      ],
+      "../src/serverstatus/serverstatus.controller.ts": [
+        "../node_modules/@nestjs/common/index.d.ts",
+        "../src/serverstatus/definitions/serverstatus.ts",
+        "../src/serverstatus/serverstatus.service.ts"
+      ],
+      "../src/serverstatus/serverstatus.module.ts": [
+        "../node_modules/@nestjs/common/index.d.ts",
+        "../src/serverstatus/serverstatus.controller.ts",
+        "../src/serverstatus/serverstatus.service.ts"
+      ],
+      "../src/serverstatus/serverstatus.service.ts": [
+        "../node_modules/@nestjs/common/index.d.ts",
+        "../src/serverstatus/definitions/serverstatus.ts"
       ],
       "../src/userlistitems/alluserlistitems.service.ts": [
         "../node_modules/@nestjs/common/index.d.ts",
@@ -6112,6 +6147,13 @@
         "../src/common/types/responsewrappers.ts",
         "../src/openlibrary/openlibrarybook.ts",
         "../src/openlibrary/openlibrarysearch.ts"
+      ],
+      "../src/serverstatus/serverstatus.controller.ts": [
+        "../src/serverstatus/definitions/serverstatus.ts",
+        "../src/serverstatus/serverstatus.service.ts"
+      ],
+      "../src/serverstatus/serverstatus.service.ts": [
+        "../src/serverstatus/definitions/serverstatus.ts"
       ],
       "../src/userlistitems/alluserlistitems.service.ts": [
         "../node_modules/mongoose/index.d.ts",

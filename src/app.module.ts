@@ -10,6 +10,7 @@ import { UserListsModule } from './userLists/userLists.module';
 import { UserListItemsModule } from './userListItems/userListItems.module';
 import { GoogleBooksModule } from './googleBooks/googleBooks.module';
 import { BookUsersModule } from './users/books/bookUsers.module';
+import { ServerStatusModule } from './serverStatus/serverStatus.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { BookUsersModule } from './users/books/bookUsers.module';
     UserListsModule,
     UserListItemsModule,
     BookUsersModule,
+    ServerStatusModule,
   ],
 })
 export class AppModule {}
