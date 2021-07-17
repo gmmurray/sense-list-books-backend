@@ -1,8 +1,17 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Error as MongooseError, Model, Types } from 'mongoose';
+import { userRoleId } from 'src/authz/roles';
+import { AuthzService } from 'src/authz/service/authz.service';
 import { cleanDtoFields } from 'src/common/dtoHelpers';
-import { handleHttpRequestError } from 'src/common/exceptionWrappers';
+import {
+  handleHttpRequestError,
+  internalServerError,
+} from 'src/common/exceptionWrappers';
 import {
   getPrivateFieldsPropName,
   getUserProfileListCountPropName,
@@ -43,6 +52,7 @@ export class BookUsersService {
     private readonly userListsService: UserListsService,
     private readonly buliService: BULIService,
     private readonly listsService: ListsService,
+    private readonly authzService: AuthzService,
     @InjectModel(UserProfile.name)
     private userProfileModel: Model<UserProfileDocument>,
   ) {}
@@ -379,6 +389,44 @@ export class BookUsersService {
       );
 
       return new DataTotalResponse(userLists);
+    } catch (error) {
+      handleHttpRequestError(error);
+    }
+  }
+
+  async registerUser(
+    createDto: CreateUserProfileDto,
+    userId: string,
+  ): Promise<void> {
+    try {
+      // check if user exists from auth perspective
+      const authzUser = await this.authzService.getUserById({ id: userId });
+
+      // no user no profile creation
+      if (!authzUser) {
+        throw new NotFoundException(null, 'The user could not be found');
+      }
+
+      // update user role
+      await this.authzService.assignRolesToUser(
+        { id: userId },
+        { roles: [userRoleId] },
+      );
+
+      // check if user already has a profile
+      const existingProfile = await this.userProfileModel
+        .findOne({ authId: userId })
+        .exec();
+
+      // only create a profile if they actually need one
+      if (!existingProfile) {
+        const newProfile = await this.createUserProfile(createDto, userId);
+        if (!newProfile) {
+          throw internalServerError({
+            message: 'Error registering user profile',
+          });
+        }
+      }
     } catch (error) {
       handleHttpRequestError(error);
     }

@@ -112,5 +112,14 @@ export class BookUsersController {
     return await this.bookUsersService.getUserStatistics(authId, userId);
   }
 
+  @UseGuards(AuthGuard('jwt'), PermissionsGuard)
+  @Post('register')
+  async registerUser(
+    @Req() { user }: AuthRequest,
+    @Body() createDto: CreateUserProfileDto,
+  ): Promise<void> {
+    const userId = user.sub;
+    return await this.bookUsersService.registerUser(createDto, userId);
+  }
   //#endregion
 }

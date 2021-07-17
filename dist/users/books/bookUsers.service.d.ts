@@ -1,4 +1,5 @@
 import { Model } from 'mongoose';
+import { AuthzService } from 'src/authz/service/authz.service';
 import { DataTotalResponse } from 'src/common/types/responseWrappers';
 import { ListsService } from 'src/lists/lists.service';
 import { BULIService } from 'src/userListItems/books/buli.service';
@@ -12,8 +13,9 @@ export declare class BookUsersService {
     private readonly userListsService;
     private readonly buliService;
     private readonly listsService;
+    private readonly authzService;
     private userProfileModel;
-    constructor(userListsService: UserListsService, buliService: BULIService, listsService: ListsService, userProfileModel: Model<UserProfileDocument>);
+    constructor(userListsService: UserListsService, buliService: BULIService, listsService: ListsService, authzService: AuthzService, userProfileModel: Model<UserProfileDocument>);
     findUserProfile(authId: string, userId: string): Promise<UserProfileDto>;
     createUserProfile(createDto: CreateUserProfileDto, userId: string): Promise<UserProfileDto>;
     getUserStatistics(authId: string, userId: string): Promise<UserStatistics | null>;
@@ -21,6 +23,7 @@ export declare class BookUsersService {
     deleteUserProfile(userId: string): Promise<void>;
     getRecentActivity(userId: string, userProfile: UserProfile): Promise<DataTotalResponse<RecentActivity>>;
     getActiveLists(userId: string, count: string): Promise<DataTotalResponse<UserListDto>>;
+    registerUser(createDto: CreateUserProfileDto, userId: string): Promise<void>;
     private getUserProfileSettings;
     private addUserListToResult;
     private addBULIToResult;

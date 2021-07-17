@@ -2176,8 +2176,18 @@
         "signature": "f1aa707a9f2f8f218a363508519153a9fc76e8833ea40e852b41a1fc82f9d85d",
         "affectsGlobalScope": false
       },
+      "../node_modules/@types/auth0/index.d.ts": {
+        "version": "2d5a2fab9bbe4441d882f829bb5e0349f801795b94b3d8ba698611957fa86254",
+        "signature": "2d5a2fab9bbe4441d882f829bb5e0349f801795b94b3d8ba698611957fa86254",
+        "affectsGlobalScope": false
+      },
+      "../src/authz/service/authz.service.ts": {
+        "version": "d1ad6825899711b50789c9c01bb6817d538588b42c4145d25d6ee00679cfa52e",
+        "signature": "57e7bf50f7d872ed70c199837c1f9920135b9383f5ab3bb72a9e3900e513f7fe",
+        "affectsGlobalScope": false
+      },
       "../src/authz/authz.module.ts": {
-        "version": "14c7c489cabb0464a85c03417f42435fd3bdb91eb148f4a162e88d061ee9d0fb",
+        "version": "c263ea4dcf31fc4182acf25433de979d8f6f81188c00f21c1bde8e9dd4f6a68a",
         "signature": "d6fb7a8c2fed382c967803b8dad2fd636566a8a1ebabe70b9c74062c6dc39afe",
         "affectsGlobalScope": false
       },
@@ -2206,23 +2216,28 @@
         "signature": "0c9aa6a2b00f0d0f0fe7057f0c29f5c4c6707448534372ef70530a9e26ae230d",
         "affectsGlobalScope": false
       },
+      "../src/authz/roles.ts": {
+        "version": "e5e5a2a9723efcc50ecdfd603b4ab4eeb05dc43751660983cafca2144893ecc8",
+        "signature": "9d8089927ba0b748ffbb050c262f73b38105c345fb088328b3077b90797030a6",
+        "affectsGlobalScope": false
+      },
       "../src/constants/activity.ts": {
         "version": "9369278e12a285f6afba73146eed3db294c193a334b4f728a909e574060221e2",
         "signature": "4bcfc61291cc0bfbf1f2138f645a873307951901659c0b602a2f893f93b41361",
         "affectsGlobalScope": false
       },
       "../src/users/books/bookusers.service.ts": {
-        "version": "5978cb557420fb9962d73b1e2fa77bf8909eb4c6e89c34fad5cfbe68d6cf2c62",
-        "signature": "f46e27ba389cfa4cffec7c0810ac92765581139bef6b634cf3c0ca8f85f31231",
+        "version": "b16857f9298b8a5435346389e2fcb543dc7ed715054ecc49bdae26458dc4759a",
+        "signature": "de684f27a85a2930b124690fa50428d9d38e808ba90c2a6347107b785cc26936",
         "affectsGlobalScope": false
       },
       "../src/users/books/bookusers.controller.ts": {
-        "version": "9578bf6a4d666dd5e935cc99c68c788bc6eda2e875a86cdb1d0c8b111ca2bc0e",
-        "signature": "588ca82fb600b3538158a97fd22562a94e64f9f5744d1a694aac6a0274c35d88",
+        "version": "4f97e2ff061130835943de92b9eb1b6085367189034427e809a180edf35a9bc9",
+        "signature": "0115dd301b47665e70804188885675dc7d62e1279fb2f4ab4edb23370b4ee0ac",
         "affectsGlobalScope": false
       },
       "../src/users/books/bookusers.module.ts": {
-        "version": "bf48f0b34b95f51d12793e59c5c01397f757d15cc0821843cc585914c8ab2d28",
+        "version": "8a77994ab4434a83df309f07aed2c33bb9ca350ccde2b80af751870ace3da58f",
         "signature": "9c1ea1615ba39b07a721f935406d79641f0fe6af3f4b60bc43fb1c3455de9390",
         "affectsGlobalScope": false
       },
@@ -3989,7 +4004,8 @@
       "../src/authz/authz.module.ts": [
         "../node_modules/@nestjs/common/index.d.ts",
         "../node_modules/@nestjs/passport/index.d.ts",
-        "../src/authz/jwt.strategy.ts"
+        "../src/authz/jwt.strategy.ts",
+        "../src/authz/service/authz.service.ts"
       ],
       "../src/authz/jwt.strategy.ts": [
         "../node_modules/@nestjs/common/index.d.ts",
@@ -4005,6 +4021,10 @@
         "../node_modules/@nestjs/common/index.d.ts",
         "../node_modules/@nestjs/core/index.d.ts",
         "../node_modules/rxjs/index.d.ts"
+      ],
+      "../src/authz/service/authz.service.ts": [
+        "../node_modules/@nestjs/common/index.d.ts",
+        "../node_modules/@types/auth0/index.d.ts"
       ],
       "../src/common/exceptionwrappers.ts": [
         "../node_modules/@nestjs/common/index.d.ts",
@@ -4401,6 +4421,7 @@
       "../src/users/books/bookusers.module.ts": [
         "../node_modules/@nestjs/common/index.d.ts",
         "../node_modules/@nestjs/mongoose/index.d.ts",
+        "../src/authz/authz.module.ts",
         "../src/lists/lists.module.ts",
         "../src/userlistitems/userlistitems.module.ts",
         "../src/userlists/userlists.module.ts",
@@ -4412,6 +4433,8 @@
         "../node_modules/@nestjs/common/index.d.ts",
         "../node_modules/@nestjs/mongoose/index.d.ts",
         "../node_modules/mongoose/index.d.ts",
+        "../src/authz/roles.ts",
+        "../src/authz/service/authz.service.ts",
         "../src/common/dtohelpers.ts",
         "../src/common/exceptionwrappers.ts",
         "../src/common/mongoosetablehelpers.ts",
@@ -5949,6 +5972,9 @@
         "../node_modules/@nestjs/core/index.d.ts",
         "../node_modules/rxjs/index.d.ts"
       ],
+      "../src/authz/service/authz.service.ts": [
+        "../node_modules/@types/auth0/index.d.ts"
+      ],
       "../src/common/exceptionwrappers.ts": [
         "../node_modules/@nestjs/common/index.d.ts",
         "../node_modules/mongoose/index.d.ts",
@@ -6195,6 +6221,7 @@
       ],
       "../src/users/books/bookusers.service.ts": [
         "../node_modules/mongoose/index.d.ts",
+        "../src/authz/service/authz.service.ts",
         "../src/common/types/responsewrappers.ts",
         "../src/lists/lists.service.ts",
         "../src/userlistitems/books/buli.service.ts",

@@ -13,4 +13,5 @@ export declare class BookUsersController {
     deleteUserProfile({ user }: AuthRequest): Promise<void>;
     getActiveLists({ user }: AuthRequest, count: string): Promise<DataTotalResponse<UserListDto>>;
     getUserStatistics({ user }: AuthRequest, authId: string): Promise<UserStatistics>;
+    registerUser({ user }: AuthRequest, createDto: CreateUserProfileDto): Promise<void>;
 }

@@ -9,6 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.BookUsersModule = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
+const authz_module_1 = require("../../authz/authz.module");
 const lists_module_1 = require("../../lists/lists.module");
 const userListItems_module_1 = require("../../userListItems/userListItems.module");
 const userLists_module_1 = require("../../userLists/userLists.module");
@@ -23,6 +24,7 @@ BookUsersModule = __decorate([
             userLists_module_1.UserListsModule,
             userListItems_module_1.UserListItemsModule,
             lists_module_1.ListsModule,
+            authz_module_1.AuthzModule,
             mongoose_1.MongooseModule.forFeature([
                 {
                     name: userProfile_schema_1.UserProfile.name,

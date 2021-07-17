@@ -16,6 +16,8 @@ exports.BookUsersService = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
+const roles_1 = require("../../authz/roles");
+const authz_service_1 = require("../../authz/service/authz.service");
 const dtoHelpers_1 = require("../../common/dtoHelpers");
 const exceptionWrappers_1 = require("../../common/exceptionWrappers");
 const mongooseTableHelpers_1 = require("../../common/mongooseTableHelpers");
@@ -36,10 +38,11 @@ const privateUserFields_dto_1 = require("../definitions/userProfiles/privateUser
 const userProfile_dto_1 = require("../definitions/userProfiles/userProfile.dto");
 const userProfile_schema_1 = require("../definitions/userProfiles/userProfile.schema");
 let BookUsersService = class BookUsersService {
-    constructor(userListsService, buliService, listsService, userProfileModel) {
+    constructor(userListsService, buliService, listsService, authzService, userProfileModel) {
         this.userListsService = userListsService;
         this.buliService = buliService;
         this.listsService = listsService;
+        this.authzService = authzService;
         this.userProfileModel = userProfileModel;
     }
     async findUserProfile(authId, userId) {
@@ -289,6 +292,29 @@ let BookUsersService = class BookUsersService {
             exceptionWrappers_1.handleHttpRequestError(error);
         }
     }
+    async registerUser(createDto, userId) {
+        try {
+            const authzUser = await this.authzService.getUserById({ id: userId });
+            if (!authzUser) {
+                throw new common_1.NotFoundException(null, 'The user could not be found');
+            }
+            await this.authzService.assignRolesToUser({ id: userId }, { roles: [roles_1.userRoleId] });
+            const existingProfile = await this.userProfileModel
+                .findOne({ authId: userId })
+                .exec();
+            if (!existingProfile) {
+                const newProfile = await this.createUserProfile(createDto, userId);
+                if (!newProfile) {
+                    throw exceptionWrappers_1.internalServerError({
+                        message: 'Error registering user profile',
+                    });
+                }
+            }
+        }
+        catch (error) {
+            exceptionWrappers_1.handleHttpRequestError(error);
+        }
+    }
     async getUserProfileSettings(authId) {
         try {
             const userProfile = await this.userProfileModel
@@ -317,10 +343,11 @@ let BookUsersService = class BookUsersService {
 };
 BookUsersService = __decorate([
     common_1.Injectable(),
-    __param(3, mongoose_1.InjectModel(userProfile_schema_1.UserProfile.name)),
+    __param(4, mongoose_1.InjectModel(userProfile_schema_1.UserProfile.name)),
     __metadata("design:paramtypes", [userLists_service_1.UserListsService,
         buli_service_1.BULIService,
         lists_service_1.ListsService,
+        authz_service_1.AuthzService,
         mongoose_2.Model])
 ], BookUsersService);
 exports.BookUsersService = BookUsersService;
