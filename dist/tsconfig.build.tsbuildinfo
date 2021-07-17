@@ -2187,7 +2187,7 @@
         "affectsGlobalScope": false
       },
       "../src/authz/authz.module.ts": {
-        "version": "e8d3cc8fa0b8b38efb217936e0b9749256182b5495af3bef38ac401357e9ddd2",
+        "version": "01c6dec12d3167340a5f397b83ea16564218f37483625a602b1b0d2f87afc54f",
         "signature": "d6fb7a8c2fed382c967803b8dad2fd636566a8a1ebabe70b9c74062c6dc39afe",
         "affectsGlobalScope": false
       },
