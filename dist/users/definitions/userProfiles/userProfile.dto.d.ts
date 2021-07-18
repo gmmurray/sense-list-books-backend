@@ -19,10 +19,10 @@ export declare class QueryUserProfileDto {
     username?: string;
 }
 export declare class CreateUserProfileDto {
-    authId?: string;
-    username?: string;
+    username: string;
+    authId: string;
     privateFields?: PrivateUserFieldsDto;
-    constructor(authId?: string, username?: string, privateFields?: PrivateUserFieldsDto);
+    constructor(username: string, authId: string, privateFields?: PrivateUserFieldsDto);
 }
 export declare class PatchUserProfileDto {
     username?: string;

@@ -10,7 +10,7 @@ export class UserProfile {
   @Prop({ required: true })
   authId: string;
 
-  @Prop({ default: 'Anonymous' })
+  @Prop({ default: 'Anonymous', minlength: 6 })
   username: string;
 
   @Prop({ type: PrivateUserFields, default: new PrivateUserFields() })

@@ -20,7 +20,7 @@ __decorate([
     __metadata("design:type", String)
 ], UserProfile.prototype, "authId", void 0);
 __decorate([
-    mongoose_1.Prop({ default: 'Anonymous' }),
+    mongoose_1.Prop({ default: 'Anonymous', minlength: 6 }),
     __metadata("design:type", String)
 ], UserProfile.prototype, "username", void 0);
 __decorate([

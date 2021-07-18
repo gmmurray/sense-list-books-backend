@@ -407,12 +407,6 @@ export class BookUsersService {
         throw new NotFoundException(null, 'The user could not be found');
       }
 
-      // update user role
-      await this.authzService.assignRolesToUser(
-        { id: userId },
-        { roles: [userRoleId] },
-      );
-
       // check if user already has a profile
       const existingProfile = await this.userProfileModel
         .findOne({ authId: userId })
@@ -420,6 +414,15 @@ export class BookUsersService {
 
       // only create a profile if they actually need one
       if (!existingProfile) {
+        // username validation
+        const takenUsername = await this.userProfileModel
+          .find({ username: createDto.username })
+          .exec();
+
+        if (takenUsername.length > 0) {
+          throw new BadRequestException(null, 'That username is taken');
+        }
+
         const newProfile = await this.createUserProfile(createDto, userId);
         if (!newProfile) {
           throw internalServerError({
@@ -427,6 +430,12 @@ export class BookUsersService {
           });
         }
       }
+
+      // update user role
+      await this.authzService.assignRolesToUser(
+        { id: userId },
+        { roles: [userRoleId] },
+      );
     } catch (error) {
       handleHttpRequestError(error);
     }

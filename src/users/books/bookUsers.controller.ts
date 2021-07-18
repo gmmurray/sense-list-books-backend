@@ -112,6 +112,10 @@ export class BookUsersController {
     return await this.bookUsersService.getUserStatistics(authId, userId);
   }
 
+  //#endregion
+
+  //#region registration
+
   @UseGuards(AuthGuard('jwt'), PermissionsGuard)
   @Post('register')
   async registerUser(

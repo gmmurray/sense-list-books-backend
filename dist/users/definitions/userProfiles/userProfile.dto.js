@@ -30,9 +30,9 @@ class QueryUserProfileDto {
 }
 exports.QueryUserProfileDto = QueryUserProfileDto;
 class CreateUserProfileDto {
-    constructor(authId, username, privateFields) {
-        this.authId = authId;
+    constructor(username, authId, privateFields) {
         this.username = username;
+        this.authId = authId;
         this.privateFields = privateFields;
     }
 }

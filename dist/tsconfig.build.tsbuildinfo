@@ -2192,7 +2192,7 @@
         "affectsGlobalScope": false
       },
       "../src/users/definitions/userprofiles/userprofile.schema.ts": {
-        "version": "a20256d255712d77c61a8c7ebed2ad5eb185f40ad3a33f475c215593a7b564b3",
+        "version": "d36955e661397063baabcb46ab2b717c5e9723ad19edc57e9dad83f34d78446f",
         "signature": "1ebb498c7b56d1f1a7513793f7e1fc0885bb2ab2189f3b676dcc11fdff51b439",
         "affectsGlobalScope": false
       },
@@ -2212,8 +2212,8 @@
         "affectsGlobalScope": false
       },
       "../src/users/definitions/userprofiles/userprofile.dto.ts": {
-        "version": "d343ef3368f47e7d41b7b5aae2373b1e41a29f8dc86c2682471838aef309cfd6",
-        "signature": "0c9aa6a2b00f0d0f0fe7057f0c29f5c4c6707448534372ef70530a9e26ae230d",
+        "version": "624a3c1d725c5cb5cf04bd279bfa4a9589088496d48e1d445d5fe64c9048e018",
+        "signature": "f103a46fb954bd3c74cb33378f973f31c29c9fda894a7f0985a8a86c516757df",
         "affectsGlobalScope": false
       },
       "../src/authz/roles.ts": {
@@ -2227,12 +2227,12 @@
         "affectsGlobalScope": false
       },
       "../src/users/books/bookusers.service.ts": {
-        "version": "b16857f9298b8a5435346389e2fcb543dc7ed715054ecc49bdae26458dc4759a",
+        "version": "184d5d51820f7d212b26ad69f14e0de07f1131a8eab261130f53f313a50e871f",
         "signature": "de684f27a85a2930b124690fa50428d9d38e808ba90c2a6347107b785cc26936",
         "affectsGlobalScope": false
       },
       "../src/users/books/bookusers.controller.ts": {
-        "version": "4f97e2ff061130835943de92b9eb1b6085367189034427e809a180edf35a9bc9",
+        "version": "6f04b93f339db5fc63a2aed09e75d5ec1ced2e2ea87144b29e8b599da04bf1bd",
         "signature": "0115dd301b47665e70804188885675dc7d62e1279fb2f4ab4edb23370b4ee0ac",
         "affectsGlobalScope": false
       },

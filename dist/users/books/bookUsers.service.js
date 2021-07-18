@@ -295,14 +295,20 @@ let BookUsersService = class BookUsersService {
     async registerUser(createDto, userId) {
         try {
             const authzUser = await this.authzService.getUserById({ id: userId });
+            console.log(authzUser);
             if (!authzUser) {
                 throw new common_1.NotFoundException(null, 'The user could not be found');
             }
-            await this.authzService.assignRolesToUser({ id: userId }, { roles: [roles_1.userRoleId] });
             const existingProfile = await this.userProfileModel
                 .findOne({ authId: userId })
                 .exec();
             if (!existingProfile) {
+                const takenUsername = await this.userProfileModel
+                    .find({ username: createDto.username })
+                    .exec();
+                if (takenUsername.length > 0) {
+                    throw new common_1.BadRequestException(null, 'That username is taken');
+                }
                 const newProfile = await this.createUserProfile(createDto, userId);
                 if (!newProfile) {
                     throw exceptionWrappers_1.internalServerError({
@@ -310,6 +316,7 @@ let BookUsersService = class BookUsersService {
                     });
                 }
             }
+            await this.authzService.assignRolesToUser({ id: userId }, { roles: [roles_1.userRoleId] });
         }
         catch (error) {
             exceptionWrappers_1.handleHttpRequestError(error);
