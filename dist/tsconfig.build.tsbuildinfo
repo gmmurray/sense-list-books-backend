@@ -1687,8 +1687,8 @@
         "affectsGlobalScope": false
       },
       "../src/lists/definitions/list.dto.ts": {
-        "version": "0ec330422dbdf95045b0640773692a9bb780b247220e1a333e9a39157d12964f",
-        "signature": "d2eacc368e269b9d8ed8e3db9099c23c0cc8898b52355a39eb710a6d4b5c0c38",
+        "version": "08f850fe426f88012a3fe942a0b913c940f103b19fbebf8b0ed7dcd8ccabb9c1",
+        "signature": "3302fcad34f745cbaef17eea0ed3e2eb60547fa4283e04fb383737c6ea5f30a0",
         "affectsGlobalScope": false
       },
       "../src/common/dtohelpers.ts": {
@@ -2227,7 +2227,7 @@
         "affectsGlobalScope": false
       },
       "../src/users/books/bookusers.service.ts": {
-        "version": "184d5d51820f7d212b26ad69f14e0de07f1131a8eab261130f53f313a50e871f",
+        "version": "d222628bd7ae35275bb250e1a6b5ed7658b33e78f669dd5a3be0867d8fd7710c",
         "signature": "de684f27a85a2930b124690fa50428d9d38e808ba90c2a6347107b785cc26936",
         "affectsGlobalScope": false
       },

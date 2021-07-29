@@ -295,7 +295,6 @@ let BookUsersService = class BookUsersService {
     async registerUser(createDto, userId) {
         try {
             const authzUser = await this.authzService.getUserById({ id: userId });
-            console.log(authzUser);
             if (!authzUser) {
                 throw new common_1.NotFoundException(null, 'The user could not be found');
             }

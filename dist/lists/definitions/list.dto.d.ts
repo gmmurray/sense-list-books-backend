@@ -23,12 +23,14 @@ export declare class QueryListDto {
     category?: string;
     type?: ListType;
     ownerOnly?: boolean | string;
-    constructor({ title, description, category, type, ownerOnly, }: {
+    ownerId?: string;
+    constructor({ title, description, category, type, ownerOnly, ownerId, }: {
         title?: any;
         description?: any;
         category?: any;
         type?: any;
         ownerOnly?: any;
+        ownerId?: any;
     });
 }
 export declare class CreateListDto {

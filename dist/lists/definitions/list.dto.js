@@ -29,12 +29,13 @@ class ListDto {
 }
 exports.ListDto = ListDto;
 class QueryListDto {
-    constructor({ title = undefined, description = undefined, category = undefined, type = undefined, ownerOnly = undefined, }) {
+    constructor({ title = undefined, description = undefined, category = undefined, type = undefined, ownerOnly = undefined, ownerId = undefined, }) {
         this.title = title;
         this.description = description;
         this.category = category;
         this.type = type;
         this.ownerOnly = ownerOnly;
+        this.ownerId = ownerId;
     }
 }
 exports.QueryListDto = QueryListDto;
