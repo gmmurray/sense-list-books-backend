@@ -1887,7 +1887,7 @@
         "affectsGlobalScope": false
       },
       "../src/authz/permissions.decorator.ts": {
-        "version": "6a73409ce54a8648e25bd16626432bce38a6c004d708ac119b484cecd24a0de2",
+        "version": "661d28a6e1b5666f670495881ff1d4796659b5573e0166cbd098168a20b4343a",
         "signature": "45e120dc0daab061f1c8adeb4fb259cd1cf8f1da7f4e50933ad4b86da9fe7135",
         "affectsGlobalScope": false
       },
@@ -2072,7 +2072,7 @@
         "affectsGlobalScope": false
       },
       "../src/authz/permissions.guard.ts": {
-        "version": "d2786a1ce4a315e9da2f89754a5a8c179d57d3bcea3cbb14065dbab9cf923fa6",
+        "version": "812e7e96d081749adc4aa1f15143f2f30eca408d0a008ba4f0742a63cd0d4b37",
         "signature": "63bdc37683aa62a92159cea1882a8d8a3559af4dc740904856df993eb0647022",
         "affectsGlobalScope": false
       },
@@ -2332,7 +2332,7 @@
         "affectsGlobalScope": false
       },
       "../src/main.ts": {
-        "version": "0f40ca0a0b55a6a2f6e3aad5fa60f83b81d3719b5b43745c563b59e987616e83",
+        "version": "695236299f452c04d18ad477538356488cf394ae2220d7baf6ae22f36bf886bf",
         "signature": "f761c91419d0a89422a0004ef1a92929dd4d2d5e5c16758654d8b0467d1998c6",
         "affectsGlobalScope": false
       },
