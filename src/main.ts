@@ -1,13 +1,18 @@
-import { NestFactory } from '@nestjs/core';
 import * as helmet from 'helmet';
 
 import { AppModule } from './app.module';
+import { NestFactory } from '@nestjs/core';
+import { createOriginUrls } from './common/urlHelper';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const origin =
+    process.env.NODE_ENV === 'development'
+      ? process.env.FRONTEND_URL
+      : createOriginUrls(process.env.FRONTEND_URL);
 
   app.enableCors({
-    origin: process.env.FRONTEND_URL,
+    origin,
   });
   app.use(helmet());
 
